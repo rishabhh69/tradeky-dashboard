@@ -6,59 +6,60 @@
 
 @layer base {
   :root {
-    --background: 222 47% 5%;
+    --background: 230 35% 4%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 8%;
+    --card: 230 30% 7%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 8%;
+    --popover: 230 30% 7%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 160 100% 49%;
-    --primary-foreground: 222 47% 5%;
+    --primary: 158 100% 52%;
+    --primary-foreground: 230 35% 4%;
 
-    --secondary: 270 91% 65%;
+    --secondary: 280 100% 70%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 230 25% 14%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 270 91% 65%;
+    --accent: 280 100% 70%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 90% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --success: 160 100% 49%;
-    --success-foreground: 222 47% 5%;
+    --success: 158 100% 52%;
+    --success-foreground: 230 35% 4%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 5%;
+    --warning: 42 100% 55%;
+    --warning-foreground: 230 35% 4%;
 
-    --border: 217 33% 20%;
-    --input: 217 33% 17%;
-    --ring: 160 100% 49%;
+    --border: 230 20% 18%;
+    --input: 230 25% 14%;
+    --ring: 158 100% 52%;
 
     --radius: 0.75rem;
 
-    /* Glass effects */
-    --glass-bg: 222 47% 11% / 0.6;
-    --glass-border: 0 0% 100% / 0.1;
-    --glass-hover: 0 0% 100% / 0.05;
+    /* Enhanced Glass effects */
+    --glass-bg: 230 30% 10% / 0.7;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-hover: 0 0% 100% / 0.04;
 
-    /* Glow effects */
-    --glow-primary: 160 100% 49% / 0.4;
-    --glow-secondary: 270 91% 65% / 0.4;
+    /* Enhanced Glow effects */
+    --glow-primary: 158 100% 52% / 0.5;
+    --glow-secondary: 280 100% 70% / 0.5;
 
-    --sidebar-background: 222 47% 6%;
+    /* Sidebar tokens */
+    --sidebar-background: 230 35% 5%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 160 100% 49%;
-    --sidebar-primary-foreground: 222 47% 5%;
-    --sidebar-accent: 270 91% 65%;
+    --sidebar-primary: 158 100% 52%;
+    --sidebar-primary-foreground: 230 35% 4%;
+    --sidebar-accent: 280 100% 70%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 15%;
-    --sidebar-ring: 160 100% 49%;
+    --sidebar-border: 230 20% 12%;
+    --sidebar-ring: 158 100% 52%;
   }
 }
 

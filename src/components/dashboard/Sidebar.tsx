@@ -1,8 +1,10 @@
-import { Home, Users, LineChart, Trophy, GraduationCap, Zap } from "lucide-react";
+import { Home, Users, LineChart, Trophy, GraduationCap, Zap, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const navigationItems = [
-  { name: "Home", icon: Home, path: "/", active: true },
+  { name: "Home", icon: Home, path: "/dashboard", active: true },
   { name: "Community", icon: Users, path: "/community", active: false },
   { name: "Charts", icon: LineChart, path: "/charts", active: false },
   { name: "Contests", icon: Trophy, path: "/contests", active: false },
@@ -10,6 +12,20 @@ const navigationItems = [
 ];
 
 export function Sidebar() {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  // Get display name from user metadata or email
+  const displayName = user?.user_metadata?.display_name || 
+                      user?.user_metadata?.username || 
+                      user?.email?.split('@')[0] || 
+                      'Trader';
+
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-white/10 bg-sidebar">
       {/* Logo */}
@@ -55,20 +71,27 @@ export function Sidebar() {
         <div className="glass-card-hover flex items-center gap-3 p-3">
           <div className="relative">
             <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser"
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.id || 'default'}`}
               alt="User avatar"
               className="h-10 w-10 rounded-full ring-2 ring-primary/50"
             />
             <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-sidebar bg-primary" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="truncate text-sm font-medium text-foreground">TraderPro</p>
+            <p className="truncate text-sm font-medium text-foreground">{displayName}</p>
             <div className="flex items-center gap-1">
               <span className="inline-flex items-center rounded-full bg-gradient-to-r from-secondary/20 to-pink-500/20 px-2 py-0.5 text-xs font-medium text-secondary">
                 Pro Member
               </span>
             </div>
           </div>
+          <button
+            onClick={handleSignOut}
+            className="p-2 text-muted-foreground hover:text-destructive transition-colors rounded-lg hover:bg-destructive/10"
+            title="Sign out"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </aside>

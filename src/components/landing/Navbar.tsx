@@ -46,12 +46,12 @@ export function Navbar() {
           
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/dashboard">
+            <Link to="/auth?mode=signin">
               <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
                 Log In
               </Button>
             </Link>
-            <Link to="/dashboard">
+            <Link to="/auth?mode=signup">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
                 Get Started Free
               </Button>
@@ -82,12 +82,12 @@ export function Navbar() {
                 </a>
               ))}
               <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-                <Link to="/dashboard">
+                <Link to="/auth?mode=signin">
                   <Button variant="outline" className="w-full">
                     Log In
                   </Button>
                 </Link>
-                <Link to="/dashboard">
+                <Link to="/auth?mode=signup">
                   <Button className="w-full bg-primary text-primary-foreground">
                     Get Started Free
                   </Button>

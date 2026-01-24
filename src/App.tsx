@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Landing from "./pages/Landing";
 import DashboardPage from "./pages/DashboardPage";
 import AuthPage from "./pages/AuthPage";
+import ChartsPage from "./pages/ChartsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +28,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/charts" 
+              element={
+                <ProtectedRoute>
+                  <ChartsPage />
                 </ProtectedRoute>
               } 
             />

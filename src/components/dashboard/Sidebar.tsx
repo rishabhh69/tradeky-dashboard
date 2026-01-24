@@ -1,19 +1,20 @@
 import { Home, Users, LineChart, Trophy, GraduationCap, Zap, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const navigationItems = [
-  { name: "Home", icon: Home, path: "/dashboard", active: true },
-  { name: "Community", icon: Users, path: "/community", active: false },
-  { name: "Charts", icon: LineChart, path: "/charts", active: false },
-  { name: "Contests", icon: Trophy, path: "/contests", active: false },
-  { name: "Learn", icon: GraduationCap, path: "/learn", active: false },
+  { name: "Home", icon: Home, path: "/dashboard" },
+  { name: "Community", icon: Users, path: "/community" },
+  { name: "Charts", icon: LineChart, path: "/charts" },
+  { name: "Contests", icon: Trophy, path: "/contests" },
+  { name: "Learn", icon: GraduationCap, path: "/learn" },
 ];
 
 export function Sidebar() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignOut = async () => {
     await signOut();
@@ -41,29 +42,32 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 p-4">
-        {navigationItems.map((item) => (
-          <a
-            key={item.name}
-            href={item.path}
-            className={cn(
-              "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-              item.active
-                ? "bg-primary/10 text-primary neon-border-primary"
-                : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-            )}
-          >
-            <item.icon
+        {navigationItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <Link
+              key={item.name}
+              to={item.path}
               className={cn(
-                "h-5 w-5 transition-colors",
-                item.active ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                isActive
+                  ? "bg-primary/10 text-primary neon-border-primary"
+                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
               )}
-            />
-            {item.name}
-            {item.active && (
-              <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary animate-pulse-glow" />
-            )}
-          </a>
-        ))}
+            >
+              <item.icon
+                className={cn(
+                  "h-5 w-5 transition-colors",
+                  isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                )}
+              />
+              {item.name}
+              {isActive && (
+                <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary animate-pulse-glow" />
+              )}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* User Profile */}

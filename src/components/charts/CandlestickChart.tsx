@@ -183,25 +183,25 @@ export function CandlestickChart({
       >
         <defs>
           <linearGradient id="volumeGradientBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(155 75% 45%)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="hsl(155 75% 45%)" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(152 70% 45%)" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="hsl(152 70% 45%)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="volumeGradientBear" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(0 75% 55%)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="hsl(0 75% 55%)" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(0 72% 51%)" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="hsl(0 72% 51%)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="bollingerFill" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(280 80% 60%)" stopOpacity="0.12" />
-            <stop offset="50%" stopColor="hsl(280 80% 60%)" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="hsl(280 80% 60%)" stopOpacity="0.12" />
+            <stop offset="0%" stopColor="hsl(280 70% 60%)" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="hsl(280 70% 60%)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="hsl(280 70% 60%)" stopOpacity="0.12" />
           </linearGradient>
           <linearGradient id="candleBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(155 85% 50%)" />
-            <stop offset="100%" stopColor="hsl(155 75% 40%)" />
+            <stop offset="0%" stopColor="hsl(152 75% 50%)" />
+            <stop offset="100%" stopColor="hsl(152 70% 40%)" />
           </linearGradient>
           <linearGradient id="candleBear" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(0 85% 60%)" />
-            <stop offset="100%" stopColor="hsl(0 75% 50%)" />
+            <stop offset="0%" stopColor="hsl(0 80% 58%)" />
+            <stop offset="100%" stopColor="hsl(0 72% 48%)" />
           </linearGradient>
           <filter id="candleGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="2" result="blur" />
@@ -233,14 +233,14 @@ export function CandlestickChart({
                 y1={y}
                 x2={chartWidth - padding.right}
                 y2={y}
-                stroke="hsl(220 20% 12%)"
+                stroke="hsl(228 18% 14%)"
                 strokeWidth="1"
                 opacity="0.6"
               />
               <text
                 x={chartWidth - padding.right + 10}
                 y={y + 4}
-                fill="hsl(220 15% 50%)"
+                fill="hsl(220 12% 50%)"
                 fontSize="10"
                 fontFamily="JetBrains Mono, monospace"
               >
@@ -294,7 +294,7 @@ export function CandlestickChart({
               y1={padding.top}
               x2={padding.left + hoveredIndex * candleWidth + candleWidth / 2}
               y2={chartHeight - padding.bottom}
-              stroke="hsl(220 15% 40%)"
+              stroke="hsl(220 12% 45%)"
               strokeWidth="1"
               strokeDasharray="4,4"
               opacity="0.5"
@@ -331,7 +331,7 @@ export function CandlestickChart({
                 y1={priceToY(candle.high)}
                 x2={x + actualCandleWidth / 2}
                 y2={priceToY(candle.low)}
-                stroke={isBullish ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
+                stroke={isBullish ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
                 strokeWidth={isHovered ? "2" : "1"}
                 opacity={isHovered ? 1 : 0.8}
               />
@@ -354,7 +354,7 @@ export function CandlestickChart({
           <path
             d={createLinePath(sma20)}
             fill="none"
-            stroke="hsl(42 95% 55%)"
+            stroke="hsl(45 95% 58%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -367,7 +367,7 @@ export function CandlestickChart({
           <path
             d={createLinePath(ema12)}
             fill="none"
-            stroke="hsl(280 80% 60%)"
+            stroke="hsl(280 70% 60%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -378,19 +378,18 @@ export function CandlestickChart({
         {/* Volume Bars */}
         {showVolume && (
           <g transform={`translate(0, ${chartHeight + 25})`}>
-            {/* Volume section separator */}
             <line
               x1={padding.left}
               y1="0"
               x2={chartWidth - padding.right}
               y2="0"
-              stroke="hsl(220 20% 14%)"
+              stroke="hsl(228 15% 16%)"
               strokeWidth="1"
             />
             <text
               x={padding.left}
               y="-8"
-              fill="hsl(220 15% 45%)"
+              fill="hsl(220 12% 50%)"
               fontSize="9"
               fontFamily="Inter, sans-serif"
               fontWeight="500"
@@ -419,14 +418,13 @@ export function CandlestickChart({
           </g>
         )}
 
-        {/* Current Price Line */}
         <g filter="url(#priceLineGlow)">
           <line
             x1={padding.left}
             y1={priceToY(latestCandle.close)}
             x2={chartWidth - padding.right}
             y2={priceToY(latestCandle.close)}
-            stroke={priceChange >= 0 ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
+            stroke={priceChange >= 0 ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
             strokeWidth="1"
             strokeDasharray="6,3"
             opacity="0.8"
@@ -438,12 +436,12 @@ export function CandlestickChart({
           width="62"
           height="22"
           rx="4"
-          fill={priceChange >= 0 ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
+          fill={priceChange >= 0 ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
         />
         <text
           x={chartWidth - padding.right + 8}
           y={priceToY(latestCandle.close) + 4}
-          fill="hsl(220 25% 4%)"
+          fill="hsl(228 25% 6%)"
           fontSize="11"
           fontWeight="600"
           fontFamily="JetBrains Mono, monospace"

@@ -55,8 +55,8 @@ export default function ChartsPage() {
             <div className="flex items-center gap-5">
               {/* Asset Info */}
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-bold bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-lg"
-                  style={{ boxShadow: '0 4px 14px hsl(172 85% 50% / 0.3)' }}
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-bold bg-gradient-to-br from-primary to-amber-500 text-primary-foreground shadow-lg"
+                  style={{ boxShadow: '0 4px 14px hsl(45 95% 58% / 0.3)' }}
                 >
                   {currentAsset.icon}
                 </div>
@@ -134,7 +134,7 @@ export default function ChartsPage() {
                       ? 'bg-primary text-primary-foreground shadow-md'
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   }`}
-                  style={selectedTimeframe === tf ? { boxShadow: '0 2px 8px hsl(172 85% 50% / 0.3)' } : {}}
+                  style={selectedTimeframe === tf ? { boxShadow: '0 2px 8px hsl(45 95% 58% / 0.3)' } : {}}
                 >
                   {tf}
                 </button>

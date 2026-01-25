@@ -14,21 +14,22 @@ export function CandlestickChart({
 }: CandlestickChartProps) {
   const data = useMemo(() => externalData || generateCandleData(60), [externalData]);
   const [hoveredCandle, setHoveredCandle] = useState<CandleData | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const chartWidth = 800;
-  const chartHeight = 400;
-  const volumeHeight = 80;
-  const padding = { top: 20, right: 60, bottom: 30, left: 10 };
+  const chartWidth = 900;
+  const chartHeight = 420;
+  const volumeHeight = 90;
+  const padding = { top: 24, right: 70, bottom: 35, left: 12 };
   
   const candleWidth = (chartWidth - padding.left - padding.right) / data.length;
-  const candleGap = candleWidth * 0.2;
+  const candleGap = candleWidth * 0.25;
   const actualCandleWidth = candleWidth - candleGap;
 
   const prices = data.flatMap(d => [d.high, d.low]);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
   const priceRange = maxPrice - minPrice;
-  const pricePadding = priceRange * 0.1;
+  const pricePadding = priceRange * 0.12;
 
   const maxVolume = Math.max(...data.map(d => d.volume));
 
@@ -37,7 +38,7 @@ export function CandlestickChart({
   };
 
   const volumeToHeight = (volume: number) => {
-    return (volume / maxVolume) * volumeHeight * 0.8;
+    return (volume / maxVolume) * volumeHeight * 0.75;
   };
 
   // Calculate SMA
@@ -105,6 +106,26 @@ export function CandlestickChart({
       .join(' ');
   };
 
+  // Create Bollinger Band fill path
+  const createBollingerFillPath = (): string => {
+    if (!bollinger) return '';
+    
+    const upperPath: string[] = [];
+    const lowerPath: string[] = [];
+    
+    bollinger.upper.forEach((value, i) => {
+      if (!isNaN(value)) {
+        const x = padding.left + i * candleWidth + candleWidth / 2;
+        const yUpper = priceToY(bollinger.upper[i]);
+        const yLower = priceToY(bollinger.lower[i]);
+        upperPath.push(`${upperPath.length === 0 ? 'M' : 'L'} ${x} ${yUpper}`);
+        lowerPath.unshift(`L ${x} ${yLower}`);
+      }
+    });
+    
+    return upperPath.join(' ') + ' ' + lowerPath.join(' ') + ' Z';
+  };
+
   const latestCandle = data[data.length - 1];
   const priceChange = latestCandle.close - latestCandle.open;
   const priceChangePercent = (priceChange / latestCandle.open) * 100;
@@ -112,51 +133,98 @@ export function CandlestickChart({
   return (
     <div className="w-full">
       {/* Price Info Header */}
-      <div className="flex items-center justify-between mb-4 px-2">
-        <div className="flex items-center gap-4">
-          <div>
-            <span className="text-2xl font-bold font-mono text-foreground">
-              ${(hoveredCandle || latestCandle).close.toLocaleString()}
+      <div className="flex items-center justify-between mb-5 px-5 pt-5">
+        <div className="flex items-center gap-5">
+          <div className="flex flex-col">
+            <span className="text-3xl font-bold font-mono text-foreground tracking-tight">
+              ${(hoveredCandle || latestCandle).close.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </span>
-            <span className={`ml-2 text-sm font-medium ${priceChange >= 0 ? 'text-success' : 'text-destructive'}`}>
-              {priceChange >= 0 ? '+' : ''}{priceChangePercent.toFixed(2)}%
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className={`text-sm font-semibold px-2 py-0.5 rounded ${
+                priceChange >= 0 
+                  ? 'bg-success/15 text-success' 
+                  : 'bg-destructive/15 text-destructive'
+              }`}>
+                {priceChange >= 0 ? '+' : ''}{priceChangePercent.toFixed(2)}%
+              </span>
+              <span className="text-sm text-muted-foreground">
+                {priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
         {hoveredCandle && (
-          <div className="flex gap-4 text-xs font-mono text-muted-foreground">
-            <span>O: <span className="text-foreground">${hoveredCandle.open.toLocaleString()}</span></span>
-            <span>H: <span className="text-success">${hoveredCandle.high.toLocaleString()}</span></span>
-            <span>L: <span className="text-destructive">${hoveredCandle.low.toLocaleString()}</span></span>
-            <span>C: <span className="text-foreground">${hoveredCandle.close.toLocaleString()}</span></span>
+          <div className="flex gap-5 text-xs font-mono bg-muted/30 rounded-lg px-4 py-2.5">
+            <div className="flex flex-col items-center">
+              <span className="text-muted-foreground mb-0.5">Open</span>
+              <span className="text-foreground font-medium">${hoveredCandle.open.toLocaleString()}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-muted-foreground mb-0.5">High</span>
+              <span className="text-success font-medium">${hoveredCandle.high.toLocaleString()}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-muted-foreground mb-0.5">Low</span>
+              <span className="text-destructive font-medium">${hoveredCandle.low.toLocaleString()}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-muted-foreground mb-0.5">Close</span>
+              <span className="text-foreground font-medium">${hoveredCandle.close.toLocaleString()}</span>
+            </div>
           </div>
         )}
       </div>
 
       {/* Main Chart */}
       <svg 
-        viewBox={`0 0 ${chartWidth} ${chartHeight + (showVolume ? volumeHeight + 20 : 0)}`}
+        viewBox={`0 0 ${chartWidth} ${chartHeight + (showVolume ? volumeHeight + 25 : 0)}`}
         className="w-full h-auto"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <linearGradient id="volumeGradientBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--success))" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(155 75% 45%)" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="hsl(155 75% 45%)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="volumeGradientBear" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--destructive))" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="hsl(var(--destructive))" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(0 75% 55%)" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="hsl(0 75% 55%)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="bollingerFill" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="hsl(280 80% 60%)" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="hsl(280 80% 60%)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="hsl(280 80% 60%)" stopOpacity="0.12" />
           </linearGradient>
+          <linearGradient id="candleBull" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="hsl(155 85% 50%)" />
+            <stop offset="100%" stopColor="hsl(155 75% 40%)" />
+          </linearGradient>
+          <linearGradient id="candleBear" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="hsl(0 85% 60%)" />
+            <stop offset="100%" stopColor="hsl(0 75% 50%)" />
+          </linearGradient>
+          <filter id="candleGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          <filter id="priceLineGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
         </defs>
 
+        {/* Background gradient */}
+        <rect 
+          x="0" 
+          y="0" 
+          width={chartWidth} 
+          height={chartHeight + (showVolume ? volumeHeight + 25 : 0)} 
+          fill="transparent" 
+        />
+
         {/* Grid Lines */}
-        {[0, 1, 2, 3, 4].map((i) => {
-          const price = minPrice - pricePadding + ((priceRange + 2 * pricePadding) / 4) * i;
+        {[0, 1, 2, 3, 4, 5].map((i) => {
+          const price = minPrice - pricePadding + ((priceRange + 2 * pricePadding) / 5) * i;
           const y = priceToY(price);
           return (
             <g key={i}>
@@ -165,15 +233,14 @@ export function CandlestickChart({
                 y1={y}
                 x2={chartWidth - padding.right}
                 y2={y}
-                stroke="hsl(var(--chart-grid))"
+                stroke="hsl(220 20% 12%)"
                 strokeWidth="1"
-                strokeDasharray="4,4"
-                opacity="0.5"
+                opacity="0.6"
               />
               <text
-                x={chartWidth - padding.right + 8}
+                x={chartWidth - padding.right + 10}
                 y={y + 4}
-                fill="hsl(var(--muted-foreground))"
+                fill="hsl(220 15% 50%)"
                 fontSize="10"
                 fontFamily="JetBrains Mono, monospace"
               >
@@ -183,27 +250,51 @@ export function CandlestickChart({
           );
         })}
 
-        {/* Bollinger Bands */}
+        {/* Bollinger Bands Fill */}
+        {bollinger && (
+          <path
+            d={createBollingerFillPath()}
+            fill="url(#bollingerFill)"
+          />
+        )}
+
+        {/* Bollinger Bands Lines */}
         {bollinger && (
           <>
             <path
               d={createLinePath(bollinger.upper)}
               fill="none"
-              stroke="hsl(var(--accent))"
-              strokeWidth="1"
-              opacity="0.5"
+              stroke="hsl(280 80% 60%)"
+              strokeWidth="1.5"
+              opacity="0.6"
             />
             <path
               d={createLinePath(bollinger.lower)}
               fill="none"
-              stroke="hsl(var(--accent))"
-              strokeWidth="1"
-              opacity="0.5"
+              stroke="hsl(280 80% 60%)"
+              strokeWidth="1.5"
+              opacity="0.6"
             />
             <path
               d={createLinePath(bollinger.middle)}
               fill="none"
-              stroke="hsl(var(--accent))"
+              stroke="hsl(280 80% 60%)"
+              strokeWidth="1"
+              strokeDasharray="6,4"
+              opacity="0.4"
+            />
+          </>
+        )}
+
+        {/* Crosshair on hover */}
+        {hoveredIndex !== null && (
+          <>
+            <line
+              x1={padding.left + hoveredIndex * candleWidth + candleWidth / 2}
+              y1={padding.top}
+              x2={padding.left + hoveredIndex * candleWidth + candleWidth / 2}
+              y2={chartHeight - padding.bottom}
+              stroke="hsl(220 15% 40%)"
               strokeWidth="1"
               strokeDasharray="4,4"
               opacity="0.5"
@@ -218,13 +309,21 @@ export function CandlestickChart({
           const bodyTop = priceToY(Math.max(candle.open, candle.close));
           const bodyBottom = priceToY(Math.min(candle.open, candle.close));
           const bodyHeight = Math.max(1, bodyBottom - bodyTop);
+          const isHovered = hoveredIndex === i;
 
           return (
             <g 
               key={i}
-              onMouseEnter={() => setHoveredCandle(candle)}
-              onMouseLeave={() => setHoveredCandle(null)}
+              onMouseEnter={() => {
+                setHoveredCandle(candle);
+                setHoveredIndex(i);
+              }}
+              onMouseLeave={() => {
+                setHoveredCandle(null);
+                setHoveredIndex(null);
+              }}
               style={{ cursor: 'crosshair' }}
+              filter={isHovered ? "url(#candleGlow)" : undefined}
             >
               {/* Wick */}
               <line
@@ -232,8 +331,9 @@ export function CandlestickChart({
                 y1={priceToY(candle.high)}
                 x2={x + actualCandleWidth / 2}
                 y2={priceToY(candle.low)}
-                stroke={isBullish ? "hsl(var(--success))" : "hsl(var(--destructive))"}
-                strokeWidth="1"
+                stroke={isBullish ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
+                strokeWidth={isHovered ? "2" : "1"}
+                opacity={isHovered ? 1 : 0.8}
               />
               {/* Body */}
               <rect
@@ -241,8 +341,9 @@ export function CandlestickChart({
                 y={bodyTop}
                 width={actualCandleWidth}
                 height={bodyHeight}
-                fill={isBullish ? "hsl(var(--success))" : "hsl(var(--destructive))"}
-                rx="1"
+                fill={isBullish ? "url(#candleBull)" : "url(#candleBear)"}
+                rx="1.5"
+                opacity={isHovered ? 1 : 0.9}
               />
             </g>
           );
@@ -253,9 +354,11 @@ export function CandlestickChart({
           <path
             d={createLinePath(sma20)}
             fill="none"
-            stroke="hsl(var(--warning))"
-            strokeWidth="1.5"
-            opacity="0.8"
+            stroke="hsl(42 95% 55%)"
+            strokeWidth="2"
+            opacity="0.85"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         )}
 
@@ -264,19 +367,41 @@ export function CandlestickChart({
           <path
             d={createLinePath(ema12)}
             fill="none"
-            stroke="hsl(var(--secondary))"
-            strokeWidth="1.5"
-            opacity="0.8"
+            stroke="hsl(280 80% 60%)"
+            strokeWidth="2"
+            opacity="0.85"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         )}
 
         {/* Volume Bars */}
         {showVolume && (
-          <g transform={`translate(0, ${chartHeight + 20})`}>
+          <g transform={`translate(0, ${chartHeight + 25})`}>
+            {/* Volume section separator */}
+            <line
+              x1={padding.left}
+              y1="0"
+              x2={chartWidth - padding.right}
+              y2="0"
+              stroke="hsl(220 20% 14%)"
+              strokeWidth="1"
+            />
+            <text
+              x={padding.left}
+              y="-8"
+              fill="hsl(220 15% 45%)"
+              fontSize="9"
+              fontFamily="Inter, sans-serif"
+              fontWeight="500"
+            >
+              Volume
+            </text>
             {data.map((candle, i) => {
               const x = padding.left + i * candleWidth + candleGap / 2;
               const isBullish = candle.close >= candle.open;
               const height = volumeToHeight(candle.volume);
+              const isHovered = hoveredIndex === i;
 
               return (
                 <rect
@@ -287,6 +412,7 @@ export function CandlestickChart({
                   height={height}
                   fill={isBullish ? "url(#volumeGradientBull)" : "url(#volumeGradientBear)"}
                   rx="1"
+                  opacity={isHovered ? 1 : 0.8}
                 />
               );
             })}
@@ -294,28 +420,31 @@ export function CandlestickChart({
         )}
 
         {/* Current Price Line */}
-        <line
-          x1={padding.left}
-          y1={priceToY(latestCandle.close)}
-          x2={chartWidth - padding.right}
-          y2={priceToY(latestCandle.close)}
-          stroke={priceChange >= 0 ? "hsl(var(--success))" : "hsl(var(--destructive))"}
-          strokeWidth="1"
-          strokeDasharray="4,2"
-        />
+        <g filter="url(#priceLineGlow)">
+          <line
+            x1={padding.left}
+            y1={priceToY(latestCandle.close)}
+            x2={chartWidth - padding.right}
+            y2={priceToY(latestCandle.close)}
+            stroke={priceChange >= 0 ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
+            strokeWidth="1"
+            strokeDasharray="6,3"
+            opacity="0.8"
+          />
+        </g>
         <rect
-          x={chartWidth - padding.right}
-          y={priceToY(latestCandle.close) - 10}
-          width="55"
-          height="20"
-          rx="3"
-          fill={priceChange >= 0 ? "hsl(var(--success))" : "hsl(var(--destructive))"}
+          x={chartWidth - padding.right + 2}
+          y={priceToY(latestCandle.close) - 11}
+          width="62"
+          height="22"
+          rx="4"
+          fill={priceChange >= 0 ? "hsl(155 75% 45%)" : "hsl(0 75% 55%)"}
         />
         <text
-          x={chartWidth - padding.right + 5}
+          x={chartWidth - padding.right + 8}
           y={priceToY(latestCandle.close) + 4}
-          fill="hsl(var(--background))"
-          fontSize="10"
+          fill="hsl(220 25% 4%)"
+          fontSize="11"
           fontWeight="600"
           fontFamily="JetBrains Mono, monospace"
         >

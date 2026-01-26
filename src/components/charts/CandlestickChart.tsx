@@ -182,22 +182,25 @@ export function CandlestickChart({
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
+          {/* Teal Success Volume Gradient */}
           <linearGradient id="volumeGradientBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(152 70% 45%)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="hsl(152 70% 45%)" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(168 71% 50%)" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="hsl(168 71% 50%)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="volumeGradientBear" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="hsl(0 72% 51%)" stopOpacity="0.7" />
             <stop offset="100%" stopColor="hsl(0 72% 51%)" stopOpacity="0.1" />
           </linearGradient>
+          {/* Trust Blue Bollinger Fill */}
           <linearGradient id="bollingerFill" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(280 70% 60%)" stopOpacity="0.12" />
-            <stop offset="50%" stopColor="hsl(280 70% 60%)" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="hsl(280 70% 60%)" stopOpacity="0.12" />
+            <stop offset="0%" stopColor="hsl(199 89% 60%)" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="hsl(199 89% 60%)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="hsl(199 89% 60%)" stopOpacity="0.12" />
           </linearGradient>
+          {/* Teal Bullish Candle */}
           <linearGradient id="candleBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(152 75% 50%)" />
-            <stop offset="100%" stopColor="hsl(152 70% 40%)" />
+            <stop offset="0%" stopColor="hsl(168 75% 55%)" />
+            <stop offset="100%" stopColor="hsl(168 71% 45%)" />
           </linearGradient>
           <linearGradient id="candleBear" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="hsl(0 80% 58%)" />
@@ -233,7 +236,7 @@ export function CandlestickChart({
                 y1={y}
                 x2={chartWidth - padding.right}
                 y2={y}
-                stroke="hsl(228 18% 14%)"
+                stroke="hsl(217 33% 20%)"
                 strokeWidth="1"
                 opacity="0.6"
               />
@@ -264,21 +267,21 @@ export function CandlestickChart({
             <path
               d={createLinePath(bollinger.upper)}
               fill="none"
-              stroke="hsl(280 80% 60%)"
+              stroke="hsl(199 89% 65%)"
               strokeWidth="1.5"
               opacity="0.6"
             />
             <path
               d={createLinePath(bollinger.lower)}
               fill="none"
-              stroke="hsl(280 80% 60%)"
+              stroke="hsl(199 89% 65%)"
               strokeWidth="1.5"
               opacity="0.6"
             />
             <path
               d={createLinePath(bollinger.middle)}
               fill="none"
-              stroke="hsl(280 80% 60%)"
+              stroke="hsl(199 89% 65%)"
               strokeWidth="1"
               strokeDasharray="6,4"
               opacity="0.4"
@@ -325,13 +328,13 @@ export function CandlestickChart({
               style={{ cursor: 'crosshair' }}
               filter={isHovered ? "url(#candleGlow)" : undefined}
             >
-              {/* Wick */}
+              {/* Wick - Teal for bull */}
               <line
                 x1={x + actualCandleWidth / 2}
                 y1={priceToY(candle.high)}
                 x2={x + actualCandleWidth / 2}
                 y2={priceToY(candle.low)}
-                stroke={isBullish ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
+                stroke={isBullish ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
                 strokeWidth={isHovered ? "2" : "1"}
                 opacity={isHovered ? 1 : 0.8}
               />
@@ -349,12 +352,12 @@ export function CandlestickChart({
           );
         })}
 
-        {/* SMA Line */}
+        {/* SMA Line - Gold */}
         {sma20.length > 0 && (
           <path
             d={createLinePath(sma20)}
             fill="none"
-            stroke="hsl(45 95% 58%)"
+            stroke="hsl(38 92% 50%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -362,12 +365,12 @@ export function CandlestickChart({
           />
         )}
 
-        {/* EMA Line */}
+        {/* EMA Line - Trust Blue */}
         {ema12.length > 0 && (
           <path
             d={createLinePath(ema12)}
             fill="none"
-            stroke="hsl(280 70% 60%)"
+            stroke="hsl(199 89% 60%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -383,7 +386,7 @@ export function CandlestickChart({
               y1="0"
               x2={chartWidth - padding.right}
               y2="0"
-              stroke="hsl(228 15% 16%)"
+              stroke="hsl(217 33% 20%)"
               strokeWidth="1"
             />
             <text
@@ -418,13 +421,14 @@ export function CandlestickChart({
           </g>
         )}
 
+        {/* Current Price Line - Teal */}
         <g filter="url(#priceLineGlow)">
           <line
             x1={padding.left}
             y1={priceToY(latestCandle.close)}
             x2={chartWidth - padding.right}
             y2={priceToY(latestCandle.close)}
-            stroke={priceChange >= 0 ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
+            stroke={priceChange >= 0 ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
             strokeWidth="1"
             strokeDasharray="6,3"
             opacity="0.8"
@@ -436,12 +440,12 @@ export function CandlestickChart({
           width="62"
           height="22"
           rx="4"
-          fill={priceChange >= 0 ? "hsl(152 70% 45%)" : "hsl(0 72% 51%)"}
+          fill={priceChange >= 0 ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
         />
         <text
           x={chartWidth - padding.right + 8}
           y={priceToY(latestCandle.close) + 4}
-          fill="hsl(228 25% 6%)"
+          fill="hsl(222 47% 11%)"
           fontSize="11"
           fontWeight="600"
           fontFamily="JetBrains Mono, monospace"

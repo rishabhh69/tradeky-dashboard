@@ -150,7 +150,7 @@ export const mockLeaderboard: LeaderboardEntry[] = [
 ];
 
 export const mockPortfolio: PortfolioData = {
-  balance: 30000,
+  balance: 100000,
   change: 735,
   changePercent: 2.45,
   sparklineData: [45, 52, 48, 61, 55, 67, 72, 68, 75, 82, 78, 85, 90, 88, 95, 100],

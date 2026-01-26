@@ -8,6 +8,7 @@ import Landing from "./pages/Landing";
 import DashboardPage from "./pages/DashboardPage";
 import AuthPage from "./pages/AuthPage";
 import ChartsPage from "./pages/ChartsPage";
+import CommunityPage from "./pages/CommunityPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -36,6 +37,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <ChartsPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/community" 
+              element={
+                <ProtectedRoute>
+                  <CommunityPage />
                 </ProtectedRoute>
               } 
             />

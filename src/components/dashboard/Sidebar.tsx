@@ -84,7 +84,7 @@ export function Sidebar() {
           <div className="flex-1 min-w-0">
             <p className="truncate text-sm font-medium text-foreground">{displayName}</p>
             <div className="flex items-center gap-1">
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-secondary/20 to-pink-500/20 px-2 py-0.5 text-xs font-medium text-secondary">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-secondary/20 to-violet-500/20 px-2 py-0.5 text-xs font-medium text-secondary">
                 Pro Member
               </span>
             </div>

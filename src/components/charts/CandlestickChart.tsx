@@ -182,29 +182,29 @@ export function CandlestickChart({
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          {/* Teal Success Volume Gradient */}
+          {/* Electric Mint Volume Gradient */}
           <linearGradient id="volumeGradientBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(168 71% 50%)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="hsl(168 71% 50%)" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(160 100% 45%)" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="hsl(160 100% 45%)" stopOpacity="0.15" />
           </linearGradient>
           <linearGradient id="volumeGradientBear" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(0 72% 51%)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="hsl(0 72% 51%)" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(0 84% 60%)" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="hsl(0 84% 60%)" stopOpacity="0.15" />
           </linearGradient>
-          {/* Trust Blue Bollinger Fill */}
+          {/* Neural Violet Bollinger Fill */}
           <linearGradient id="bollingerFill" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(199 89% 60%)" stopOpacity="0.12" />
-            <stop offset="50%" stopColor="hsl(199 89% 60%)" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="hsl(199 89% 60%)" stopOpacity="0.12" />
+            <stop offset="0%" stopColor="hsl(239 84% 67%)" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="hsl(239 84% 67%)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="hsl(239 84% 67%)" stopOpacity="0.12" />
           </linearGradient>
-          {/* Teal Bullish Candle */}
+          {/* Electric Mint Bullish Candle */}
           <linearGradient id="candleBull" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(168 75% 55%)" />
-            <stop offset="100%" stopColor="hsl(168 71% 45%)" />
+            <stop offset="0%" stopColor="hsl(160 100% 50%)" />
+            <stop offset="100%" stopColor="hsl(160 100% 40%)" />
           </linearGradient>
           <linearGradient id="candleBear" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="hsl(0 80% 58%)" />
-            <stop offset="100%" stopColor="hsl(0 72% 48%)" />
+            <stop offset="0%" stopColor="hsl(0 90% 65%)" />
+            <stop offset="100%" stopColor="hsl(0 84% 55%)" />
           </linearGradient>
           <filter id="candleGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="2" result="blur" />
@@ -236,7 +236,7 @@ export function CandlestickChart({
                 y1={y}
                 x2={chartWidth - padding.right}
                 y2={y}
-                stroke="hsl(217 33% 20%)"
+                stroke="hsl(220 20% 16%)"
                 strokeWidth="1"
                 opacity="0.6"
               />
@@ -261,30 +261,30 @@ export function CandlestickChart({
           />
         )}
 
-        {/* Bollinger Bands Lines */}
+        {/* Bollinger Bands Lines - Neural Violet */}
         {bollinger && (
           <>
             <path
               d={createLinePath(bollinger.upper)}
               fill="none"
-              stroke="hsl(199 89% 65%)"
+              stroke="hsl(239 84% 67%)"
               strokeWidth="1.5"
-              opacity="0.6"
+              opacity="0.65"
             />
             <path
               d={createLinePath(bollinger.lower)}
               fill="none"
-              stroke="hsl(199 89% 65%)"
+              stroke="hsl(239 84% 67%)"
               strokeWidth="1.5"
-              opacity="0.6"
+              opacity="0.65"
             />
             <path
               d={createLinePath(bollinger.middle)}
               fill="none"
-              stroke="hsl(199 89% 65%)"
+              stroke="hsl(239 84% 67%)"
               strokeWidth="1"
               strokeDasharray="6,4"
-              opacity="0.4"
+              opacity="0.45"
             />
           </>
         )}
@@ -328,15 +328,15 @@ export function CandlestickChart({
               style={{ cursor: 'crosshair' }}
               filter={isHovered ? "url(#candleGlow)" : undefined}
             >
-              {/* Wick - Teal for bull */}
+              {/* Wick - Electric Mint for bull */}
               <line
                 x1={x + actualCandleWidth / 2}
                 y1={priceToY(candle.high)}
                 x2={x + actualCandleWidth / 2}
                 y2={priceToY(candle.low)}
-                stroke={isBullish ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
+                stroke={isBullish ? "hsl(160 100% 45%)" : "hsl(0 84% 60%)"}
                 strokeWidth={isHovered ? "2" : "1"}
-                opacity={isHovered ? 1 : 0.8}
+                opacity={isHovered ? 1 : 0.85}
               />
               {/* Body */}
               <rect
@@ -352,12 +352,12 @@ export function CandlestickChart({
           );
         })}
 
-        {/* SMA Line - Gold */}
+        {/* SMA Line - Neural Violet */}
         {sma20.length > 0 && (
           <path
             d={createLinePath(sma20)}
             fill="none"
-            stroke="hsl(38 92% 50%)"
+            stroke="hsl(239 84% 67%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -365,12 +365,12 @@ export function CandlestickChart({
           />
         )}
 
-        {/* EMA Line - Trust Blue */}
+        {/* EMA Line - Signal Orange */}
         {ema12.length > 0 && (
           <path
             d={createLinePath(ema12)}
             fill="none"
-            stroke="hsl(199 89% 60%)"
+            stroke="hsl(25 95% 53%)"
             strokeWidth="2"
             opacity="0.85"
             strokeLinecap="round"
@@ -386,7 +386,7 @@ export function CandlestickChart({
               y1="0"
               x2={chartWidth - padding.right}
               y2="0"
-              stroke="hsl(217 33% 20%)"
+              stroke="hsl(220 20% 16%)"
               strokeWidth="1"
             />
             <text
@@ -421,17 +421,17 @@ export function CandlestickChart({
           </g>
         )}
 
-        {/* Current Price Line - Teal */}
+        {/* Current Price Line - Electric Mint */}
         <g filter="url(#priceLineGlow)">
           <line
             x1={padding.left}
             y1={priceToY(latestCandle.close)}
             x2={chartWidth - padding.right}
             y2={priceToY(latestCandle.close)}
-            stroke={priceChange >= 0 ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
+            stroke={priceChange >= 0 ? "hsl(160 100% 45%)" : "hsl(0 84% 60%)"}
             strokeWidth="1"
             strokeDasharray="6,3"
-            opacity="0.8"
+            opacity="0.85"
           />
         </g>
         <rect
@@ -440,12 +440,12 @@ export function CandlestickChart({
           width="62"
           height="22"
           rx="4"
-          fill={priceChange >= 0 ? "hsl(168 71% 50%)" : "hsl(0 72% 51%)"}
+          fill={priceChange >= 0 ? "hsl(160 100% 45%)" : "hsl(0 84% 60%)"}
         />
         <text
           x={chartWidth - padding.right + 8}
           y={priceToY(latestCandle.close) + 4}
-          fill="hsl(222 47% 11%)"
+          fill="hsl(220 29% 6%)"
           fontSize="11"
           fontWeight="600"
           fontFamily="JetBrains Mono, monospace"

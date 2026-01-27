@@ -6,79 +6,79 @@
 
 @layer base {
   :root {
-    /* Deep Navy Background - #0F172A */
-    --background: 222 47% 11%;
-    --foreground: 214 32% 91%;
+    /* Obsidian Background - #0B0E14 */
+    --background: 220 29% 6%;
+    --foreground: 210 40% 98%;
 
-    /* Slate Surface - #1E293B */
-    --card: 217 33% 17%;
-    --card-foreground: 214 32% 91%;
+    /* Gunmetal Surface - #151921 */
+    --card: 220 22% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 217 33% 17%;
-    --popover-foreground: 214 32% 91%;
+    --popover: 220 22% 11%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Trust Blue Primary - #38BDF8 */
-    --primary: 199 89% 60%;
-    --primary-foreground: 222 47% 11%;
+    /* Electric Mint Primary - #00E599 */
+    --primary: 160 100% 45%;
+    --primary-foreground: 220 29% 6%;
 
-    /* Gold Secondary - #F59E0B */
-    --secondary: 38 92% 50%;
-    --secondary-foreground: 222 47% 11%;
+    /* Neural Violet Secondary - #6366F1 */
+    --secondary: 239 84% 67%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 33% 22%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 220 20% 16%;
+    --muted-foreground: 215 16% 55%;
 
-    /* Accent - Trust Blue lighter */
-    --accent: 199 89% 65%;
-    --accent-foreground: 222 47% 11%;
+    /* Signal Orange Accent - #F97316 */
+    --accent: 25 95% 53%;
+    --accent-foreground: 220 29% 6%;
 
     /* Trading Colors */
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 214 32% 91%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
 
-    /* Teal Success - #2DD4BF */
-    --success: 168 71% 50%;
-    --success-foreground: 222 47% 11%;
+    /* Electric Mint Success */
+    --success: 160 100% 45%;
+    --success-foreground: 220 29% 6%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --warning: 25 95% 53%;
+    --warning-foreground: 220 29% 6%;
 
     /* Chart specific colors */
-    --chart-bullish: 168 71% 50%;
-    --chart-bearish: 0 72% 51%;
-    --chart-grid: 217 33% 20%;
-    --chart-volume: 199 89% 60%;
-    --chart-indicator-1: 38 92% 50%;
-    --chart-indicator-2: 199 89% 70%;
-    --chart-indicator-3: 168 71% 55%;
+    --chart-bullish: 160 100% 45%;
+    --chart-bearish: 0 84% 60%;
+    --chart-grid: 220 20% 14%;
+    --chart-volume: 160 100% 45%;
+    --chart-indicator-1: 239 84% 67%;
+    --chart-indicator-2: 160 100% 50%;
+    --chart-indicator-3: 25 95% 53%;
 
-    --border: 217 33% 22%;
-    --input: 217 33% 17%;
-    --ring: 199 89% 60%;
+    --border: 220 20% 16%;
+    --input: 220 22% 11%;
+    --ring: 160 100% 45%;
 
     --radius: 0.75rem;
 
     /* Glass effects */
-    --glass-bg: 217 33% 17% / 0.92;
-    --glass-border: 0 0% 100% / 0.06;
-    --glass-hover: 0 0% 100% / 0.03;
+    --glass-bg: 220 22% 11% / 0.95;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-hover: 0 0% 100% / 0.04;
 
     /* Glow effects */
-    --glow-primary: 199 89% 60% / 0.4;
-    --glow-secondary: 38 92% 50% / 0.35;
-    --glow-accent: 199 89% 65% / 0.35;
-    --glow-success: 168 71% 50% / 0.35;
-    --glow-destructive: 0 72% 51% / 0.35;
+    --glow-primary: 160 100% 45% / 0.4;
+    --glow-secondary: 239 84% 67% / 0.35;
+    --glow-accent: 25 95% 53% / 0.35;
+    --glow-success: 160 100% 45% / 0.35;
+    --glow-destructive: 0 84% 60% / 0.35;
 
     /* Sidebar tokens */
-    --sidebar-background: 222 47% 9%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 199 89% 60%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 38 92% 50%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 217 33% 18%;
-    --sidebar-ring: 199 89% 60%;
+    --sidebar-background: 220 29% 5%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 160 100% 45%;
+    --sidebar-primary-foreground: 220 29% 6%;
+    --sidebar-accent: 239 84% 67%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 20% 14%;
+    --sidebar-ring: 160 100% 45%;
   }
 }
 
@@ -91,9 +91,9 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
     background-image: 
-      radial-gradient(ellipse 90% 60% at 50% -25%, hsl(199 89% 60% / 0.04), transparent),
-      radial-gradient(ellipse 70% 50% at 100% 50%, hsl(38 92% 50% / 0.03), transparent),
-      radial-gradient(ellipse 50% 40% at 0% 80%, hsl(168 71% 50% / 0.02), transparent);
+      radial-gradient(ellipse 90% 60% at 50% -25%, hsl(160 100% 45% / 0.03), transparent),
+      radial-gradient(ellipse 70% 50% at 100% 50%, hsl(239 84% 67% / 0.04), transparent),
+      radial-gradient(ellipse 50% 40% at 0% 80%, hsl(25 95% 53% / 0.02), transparent);
   }
 
   .font-mono {
@@ -163,19 +163,19 @@
   }
 
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-emerald-400 via-green-400 to-teal-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-secondary {
-    @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-accent {
-    @apply bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-success {
-    @apply bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent;
   }
 
   .neon-border-primary {
@@ -232,20 +232,20 @@
     fill: url(#sparklineGradient);
   }
 
-  /* Teal Buy Button */
+  /* Electric Mint Buy Button */
   .trading-btn-buy {
-    @apply bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-500/90 hover:to-emerald-500/90 text-white font-semibold shadow-lg;
-    box-shadow: 0 4px 14px hsl(var(--success) / 0.25);
+    @apply bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-black font-semibold shadow-lg;
+    box-shadow: 0 4px 14px hsl(160 100% 45% / 0.3);
     &:hover {
-      box-shadow: 0 6px 20px hsl(var(--success) / 0.35);
+      box-shadow: 0 6px 20px hsl(160 100% 45% / 0.45);
     }
   }
 
   .trading-btn-sell {
-    @apply bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-500/90 hover:to-red-500/90 text-white font-semibold shadow-lg;
-    box-shadow: 0 4px 14px hsl(var(--destructive) / 0.25);
+    @apply bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-400 hover:to-red-400 text-white font-semibold shadow-lg;
+    box-shadow: 0 4px 14px hsl(0 84% 60% / 0.3);
     &:hover {
-      box-shadow: 0 6px 20px hsl(var(--destructive) / 0.35);
+      box-shadow: 0 6px 20px hsl(0 84% 60% / 0.45);
     }
   }
 
@@ -259,28 +259,32 @@
     animation: ticker-flash-down 0.3s ease-out;
   }
 
-  /* Trust Blue primary button */
+  /* Electric Mint primary button */
   .btn-primary-premium {
-    @apply bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-500/90 hover:to-cyan-500/90 text-white font-semibold;
-    box-shadow: 0 4px 14px hsl(199 89% 60% / 0.3);
+    @apply bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-black font-semibold;
+    box-shadow: 0 4px 14px hsl(160 100% 45% / 0.3);
     &:hover {
-      box-shadow: 0 6px 20px hsl(199 89% 60% / 0.4);
+      box-shadow: 0 6px 20px hsl(160 100% 45% / 0.45);
     }
   }
 
-  /* Gold secondary button */
+  /* Neural Violet secondary button */
   .btn-secondary-premium {
-    @apply bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-500/90 hover:to-yellow-500/90 text-black font-semibold;
-    box-shadow: 0 4px 14px hsl(38 92% 50% / 0.25);
+    @apply bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-semibold;
+    box-shadow: 0 4px 14px hsl(239 84% 67% / 0.3);
   }
 
   /* Badge styles */
-  .badge-gold {
+  .badge-violet {
     @apply bg-secondary/15 text-secondary border border-secondary/30 rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
 
   .badge-premium {
-    @apply bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-secondary border border-secondary/40 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+    @apply bg-gradient-to-r from-indigo-500/20 to-violet-500/20 text-secondary border border-secondary/40 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .badge-accent {
+    @apply bg-accent/15 text-accent border border-accent/30 rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
 }
 

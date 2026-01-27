@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpRight, ArrowDownRight, DollarSign, Zap } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface TradingPanelProps {
@@ -42,7 +42,7 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
     if (type === 'buy' && totalValue > balance) {
       toast({
         title: "Insufficient balance",
-        description: "You don't have enough coins for this trade",
+        description: "You don't have enough funds for this trade",
         variant: "destructive",
       });
       return;
@@ -55,7 +55,7 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
     });
 
     toast({
-      title: `${type === 'buy' ? '🟢 Buy' : '🔴 Sell'} Order Executed`,
+      title: `${type === 'buy' ? 'Buy' : 'Sell'} Order Executed`,
       description: `${numAmount.toFixed(4)} ${symbol} at $${currentPrice.toLocaleString()}`,
     });
 
@@ -65,59 +65,50 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
   return (
     <div className="glass-card overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border/50 bg-gradient-to-r from-muted/30 to-transparent">
+      <div className="px-4 py-3 border-b border-border">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-primary" />
-            <h3 className="font-semibold text-foreground">Trade {symbol}</h3>
-          </div>
-          <span className="text-xl font-bold font-mono text-foreground">
+          <h3 className="text-sm font-medium text-foreground">Trade {symbol}</h3>
+          <span className="text-lg font-semibold font-mono text-foreground">
             ${currentPrice.toLocaleString()}
           </span>
         </div>
       </div>
 
-      <div className="p-5 space-y-5">
-        {/* Order Type Tabs */}
+      <div className="p-4 space-y-4">
+        {/* Order Type */}
         <Tabs value={orderType} onValueChange={(v) => setOrderType(v as 'market' | 'limit')}>
-          <TabsList className="w-full bg-muted/40 p-1">
-            <TabsTrigger 
-              value="market" 
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
+          <TabsList className="w-full bg-muted p-0.5 h-8">
+            <TabsTrigger value="market" className="flex-1 text-xs h-7 data-[state=active]:bg-background">
               Market
             </TabsTrigger>
-            <TabsTrigger 
-              value="limit" 
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
+            <TabsTrigger value="limit" className="flex-1 text-xs h-7 data-[state=active]:bg-background">
               Limit
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="limit" className="mt-4">
-            <div className="space-y-2">
-              <Label className="text-muted-foreground text-sm">Limit Price</Label>
+          <TabsContent value="limit" className="mt-3">
+            <div className="space-y-1.5">
+              <Label className="text-muted-foreground text-xs">Limit Price</Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <DollarSign className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                 <Input
                   type="number"
                   placeholder={currentPrice.toString()}
                   value={limitPrice}
                   onChange={(e) => setLimitPrice(e.target.value)}
-                  className="pl-9 bg-muted/40 border-border/50 focus:border-primary"
+                  className="pl-8 h-9 bg-muted/50 border-border text-sm"
                 />
               </div>
             </div>
           </TabsContent>
         </Tabs>
 
-        {/* Amount Input */}
-        <div className="space-y-2.5">
+        {/* Amount */}
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-muted-foreground text-sm">Amount ({symbol})</Label>
-            <span className="text-xs text-muted-foreground">
-              Max: <span className="text-foreground font-mono">{maxBuyAmount.toFixed(4)}</span>
+            <Label className="text-muted-foreground text-xs">Amount ({symbol})</Label>
+            <span className="text-[10px] text-muted-foreground">
+              Max: <span className="font-mono">{maxBuyAmount.toFixed(4)}</span>
             </span>
           </div>
           <Input
@@ -125,16 +116,15 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
             placeholder="0.00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="bg-muted/40 border-border/50 font-mono text-lg h-12 focus:border-primary"
+            className="bg-muted/50 border-border font-mono h-10"
           />
           
-          {/* Quick Amount Buttons */}
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {[0.25, 0.5, 0.75, 1].map((percent) => (
               <button
                 key={percent}
                 onClick={() => handleQuickAmount(percent)}
-                className="flex-1 py-2 rounded-lg bg-muted/50 hover:bg-muted border border-border/50 hover:border-primary/30 text-xs font-semibold text-muted-foreground hover:text-foreground transition-all"
+                className="flex-1 py-1.5 rounded bg-muted hover:bg-muted/80 border border-border text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {percent * 100}%
               </button>
@@ -142,23 +132,22 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
           </div>
         </div>
 
-        {/* Leverage Selector */}
-        <div className="space-y-2.5">
+        {/* Leverage */}
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label className="text-muted-foreground text-sm">Leverage</Label>
-            <span className="text-sm font-bold text-primary font-mono">{leverage}x</span>
+            <Label className="text-muted-foreground text-xs">Leverage</Label>
+            <span className="text-xs font-semibold text-primary font-mono">{leverage}x</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {[1, 2, 5, 10, 20].map((lev) => (
               <button
                 key={lev}
                 onClick={() => setLeverage(lev)}
-                className={`flex-1 py-2.5 rounded-lg text-xs font-bold transition-all border ${
+                className={`flex-1 py-1.5 rounded text-xs font-medium transition-colors border ${
                   leverage === lev
-                    ? 'bg-primary text-primary-foreground border-primary shadow-lg'
-                    : 'bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground border-border/50 hover:border-primary/30'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-muted text-muted-foreground hover:text-foreground border-border'
                 }`}
-                style={leverage === lev ? { boxShadow: '0 4px 12px hsl(172 85% 50% / 0.25)' } : {}}
               >
                 {lev}x
               </button>
@@ -166,39 +155,36 @@ export function TradingPanel({ currentPrice, symbol, balance, onTrade }: Trading
           </div>
         </div>
 
-        {/* Trade Summary */}
-        <div className="p-4 rounded-xl bg-gradient-to-br from-muted/50 to-muted/30 border border-border/50 space-y-3">
-          <div className="flex items-center justify-between text-sm">
+        {/* Summary */}
+        <div className="p-3 rounded bg-muted/50 border border-border space-y-2">
+          <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">Total Value</span>
-            <span className="font-mono font-bold text-foreground text-base">
+            <span className="font-mono font-medium text-foreground">
               ${(totalValue * leverage).toLocaleString(undefined, { maximumFractionDigits: 2 })}
             </span>
           </div>
-          <div className="h-px bg-border/50" />
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Available Balance</span>
-            <span className="font-mono text-foreground">
-              ${balance.toLocaleString()}
-            </span>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">Available</span>
+            <span className="font-mono text-foreground">${balance.toLocaleString()}</span>
           </div>
         </div>
 
-        {/* Buy/Sell Buttons */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Buttons */}
+        <div className="grid grid-cols-2 gap-2">
           <Button
             onClick={() => handleTrade('buy')}
-            className="trading-btn-buy h-12 text-base"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground h-10"
             disabled={numAmount <= 0 || totalValue > balance}
           >
-            <ArrowUpRight className="w-5 h-5 mr-1.5" />
+            <ArrowUpRight className="w-4 h-4 mr-1" />
             Long
           </Button>
           <Button
             onClick={() => handleTrade('sell')}
-            className="trading-btn-sell h-12 text-base"
+            className="bg-destructive hover:bg-destructive/90 text-destructive-foreground h-10"
             disabled={numAmount <= 0}
           >
-            <ArrowDownRight className="w-5 h-5 mr-1.5" />
+            <ArrowDownRight className="w-4 h-4 mr-1" />
             Short
           </Button>
         </div>

@@ -14,8 +14,7 @@ import {
   Settings,
   TrendingUp,
   TrendingDown,
-  Wallet,
-  Activity
+  Wallet
 } from "lucide-react";
 
 const timeframes = ['1m', '5m', '15m', '1H', '4H', '1D', '1W'];
@@ -48,108 +47,100 @@ export default function ChartsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
       
-      <main className="flex-1 ml-64">
+      <main className="flex-1 ml-60">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-2xl border-b border-border/40">
-          <div className="flex items-center justify-between px-6 h-16">
-            <div className="flex items-center gap-5">
+        <header className="sticky top-0 z-30 bg-background border-b border-border">
+          <div className="flex items-center justify-between px-5 h-14">
+            <div className="flex items-center gap-4">
               {/* Asset Info */}
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-bold bg-gradient-to-br from-primary to-emerald-400 text-primary-foreground shadow-lg"
-                  style={{ boxShadow: '0 4px 14px hsl(160 100% 45% / 0.3)' }}
-                >
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                   {currentAsset.icon}
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-xl font-bold text-foreground font-display">
+                  <div className="flex items-center gap-1.5">
+                    <h1 className="text-base font-semibold text-foreground">
                       {currentAsset.symbol}
                     </h1>
-                    <span className="text-sm text-muted-foreground">/USDT</span>
+                    <span className="text-xs text-muted-foreground">/USDT</span>
                   </div>
                   <p className="text-xs text-muted-foreground">{currentAsset.name}</p>
                 </div>
               </div>
 
-              {/* Price Badge */}
-              <div className="flex items-center gap-3 pl-5 border-l border-border/50">
-                <span className="text-2xl font-bold font-mono text-foreground">
+              {/* Price */}
+              <div className="flex items-center gap-2.5 pl-4 border-l border-border">
+                <span className="text-xl font-semibold font-mono text-foreground">
                   ${currentAsset.price.toLocaleString()}
                 </span>
-                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-sm font-semibold ${
-                  currentAsset.change24h >= 0 
-                    ? 'bg-success/15 text-success border border-success/20' 
-                    : 'bg-destructive/15 text-destructive border border-destructive/20'
+                <span className={`flex items-center gap-1 text-sm font-medium ${
+                  currentAsset.change24h >= 0 ? 'text-primary' : 'text-destructive'
                 }`}>
                   {currentAsset.change24h >= 0 
-                    ? <TrendingUp className="w-4 h-4" /> 
-                    : <TrendingDown className="w-4 h-4" />
+                    ? <TrendingUp className="w-3.5 h-3.5" /> 
+                    : <TrendingDown className="w-3.5 h-3.5" />
                   }
                   {currentAsset.change24h >= 0 ? '+' : ''}{currentAsset.change24h.toFixed(2)}%
-                </div>
+                </span>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Balance Display */}
-              <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl glass-card">
-                <div className="p-1.5 rounded-lg bg-primary/15">
-                  <Wallet className="w-4 h-4 text-primary" />
-                </div>
+              {/* Balance */}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-border bg-muted/30">
+                <Wallet className="w-4 h-4 text-muted-foreground" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Demo Balance</span>
-                  <span className="font-bold font-mono text-foreground">
+                  <span className="text-[10px] text-muted-foreground">Balance</span>
+                  <span className="text-sm font-semibold font-mono text-foreground">
                     ${balance.toLocaleString()}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="icon" className="hover:bg-muted/50">
-                  <Camera className="w-5 h-5 text-muted-foreground" />
+              <div className="flex items-center gap-0.5">
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                  <Camera className="w-4 h-4 text-muted-foreground" />
                 </Button>
-                <Button variant="ghost" size="icon" className="hover:bg-muted/50">
-                  <Settings className="w-5 h-5 text-muted-foreground" />
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                  <Settings className="w-4 h-4 text-muted-foreground" />
                 </Button>
-                <Button variant="ghost" size="icon" className="hover:bg-muted/50">
-                  <Maximize2 className="w-5 h-5 text-muted-foreground" />
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                  <Maximize2 className="w-4 h-4 text-muted-foreground" />
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Timeframe Selector */}
-          <div className="px-6 pb-3 flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground font-medium">Timeframe</span>
+          {/* Timeframe */}
+          <div className="px-5 pb-3 flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground font-medium">Timeframe</span>
             </div>
-            <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/30">
+            <div className="flex items-center gap-0.5 p-0.5 rounded bg-muted/50">
               {timeframes.map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${
+                  className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
                     selectedTimeframe === tf
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
-                  style={selectedTimeframe === tf ? { boxShadow: '0 2px 8px hsl(160 100% 45% / 0.3)' } : {}}
                 >
                   {tf}
                 </button>
               ))}
             </div>
 
-            {/* Active indicators mini display */}
             {activeIndicators.length > 0 && (
-              <div className="flex items-center gap-2 ml-4 pl-4 border-l border-border/50">
-                <Activity className="w-4 h-4 text-muted-foreground" />
-                <div className="flex gap-1.5">
+              <div className="flex items-center gap-1.5 ml-2 pl-3 border-l border-border">
+                <span className="text-xs text-muted-foreground">Indicators:</span>
+                <div className="flex gap-1">
                   {activeIndicators.map((ind) => (
                     <span 
                       key={ind} 
-                      className="text-xs px-2 py-0.5 rounded bg-muted/50 text-muted-foreground font-medium"
+                      className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
                     >
                       {ind}
                     </span>
@@ -161,37 +152,35 @@ export default function ChartsPage() {
         </header>
 
         {/* Main Content */}
-        <div className="p-6">
-          <div className="grid grid-cols-12 gap-5">
-            {/* Left Panel - Asset Selector */}
-            <div className="col-span-2 space-y-5">
+        <div className="p-5">
+          <div className="grid grid-cols-12 gap-4">
+            {/* Asset Selector */}
+            <div className="col-span-2">
               <AssetSelector 
                 selectedAsset={selectedAsset} 
                 onSelectAsset={setSelectedAsset} 
               />
             </div>
 
-            {/* Center - Chart */}
-            <div className="col-span-7 space-y-5">
-              <div className="chart-container-premium">
+            {/* Chart */}
+            <div className="col-span-7 space-y-4">
+              <div className="glass-card overflow-hidden">
                 <CandlestickChart 
                   showVolume={true}
                   indicators={activeIndicators}
                 />
               </div>
-              
               <PositionsPanel />
             </div>
 
-            {/* Right Panel - Trading */}
-            <div className="col-span-3 space-y-5">
+            {/* Trading Panel */}
+            <div className="col-span-3 space-y-4">
               <TradingPanel
                 currentPrice={currentAsset.price}
                 symbol={currentAsset.symbol}
                 balance={balance}
                 onTrade={handleTrade}
               />
-              
               <IndicatorsPanel
                 activeIndicators={activeIndicators}
                 onToggleIndicator={handleToggleIndicator}

@@ -1,4 +1,4 @@
-import { TrendingUp, ArrowUpRight } from "lucide-react";
+import { TrendingUp, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { mockPortfolio } from "@/data/mockData";
 
 function Sparkline({ data }: { data: number[] }) {
@@ -13,19 +13,17 @@ function Sparkline({ data }: { data: number[] }) {
   }).join(" ");
 
   return (
-    <svg className="h-16 w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <svg className="h-12 w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
       <defs>
         <linearGradient id="sparklineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
           <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
         </linearGradient>
       </defs>
-      {/* Fill area */}
       <polygon
         fill="url(#sparklineGradient)"
         points={`0,100 ${points} 100,100`}
       />
-      {/* Line */}
       <polyline
         fill="none"
         stroke="hsl(var(--primary))"
@@ -41,52 +39,44 @@ function Sparkline({ data }: { data: number[] }) {
 
 export function PortfolioWidget() {
   const { balance, change, changePercent, sparklineData } = mockPortfolio;
+  const isPositive = change >= 0;
 
   return (
-    <div className="glass-card overflow-hidden">
-      <div className="neon-border-primary rounded-xl p-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-              <TrendingUp className="h-4 w-4 text-primary" />
-            </div>
-            <span className="text-sm font-medium text-muted-foreground">Demo Portfolio</span>
-          </div>
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            Paper Trading
+    <div className="glass-card p-4">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-muted-foreground">Portfolio</span>
+        </div>
+        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded">
+          Demo
+        </span>
+      </div>
+
+      <div className="mb-4">
+        <div className="text-2xl font-semibold text-foreground font-mono">
+          ${balance.toLocaleString()}<span className="text-muted-foreground text-lg">.00</span>
+        </div>
+        <div className="flex items-center gap-2 mt-1">
+          <span className={`flex items-center gap-0.5 text-sm font-medium ${isPositive ? 'text-primary' : 'text-destructive'}`}>
+            {isPositive ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
+            {isPositive ? '+' : ''}${Math.abs(change).toLocaleString()}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            ({isPositive ? '+' : ''}{changePercent}%)
           </span>
         </div>
+      </div>
 
-        <div className="mt-4">
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold text-foreground">
-              ${balance.toLocaleString()}
-            </span>
-            <span className="text-lg font-medium text-muted-foreground">.00</span>
-          </div>
-          <div className="mt-1 flex items-center gap-2">
-            <span className="flex items-center gap-1 text-sm font-medium text-primary">
-              <ArrowUpRight className="h-4 w-4" />
-              +${change.toLocaleString()}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              ({changePercent}% today)
-            </span>
-          </div>
-        </div>
+      <Sparkline data={sparklineData} />
 
-        <div className="mt-4">
-          <Sparkline data={sparklineData} />
-        </div>
-
-        <div className="mt-4 flex gap-2">
-          <button className="flex-1 rounded-lg bg-primary py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-            Add Funds
-          </button>
-          <button className="flex-1 rounded-lg border border-white/10 py-2 text-sm font-medium text-foreground transition-colors hover:bg-white/5">
-            Trade Now
-          </button>
-        </div>
+      <div className="flex gap-2 mt-4">
+        <button className="flex-1 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
+          Add Funds
+        </button>
+        <button className="flex-1 py-2 text-sm font-medium border border-border text-foreground rounded hover:bg-muted transition-colors">
+          Trade
+        </button>
       </div>
     </div>
   );

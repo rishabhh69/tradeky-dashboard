@@ -1,30 +1,30 @@
 import { PortfolioWidget } from "./PortfolioWidget";
 import { LeaderboardWidget } from "./LeaderboardWidget";
-import { Flame, Zap } from "lucide-react";
+import { Users, TrendingUp } from "lucide-react";
 
 export function WidgetsPanel() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <PortfolioWidget />
       <LeaderboardWidget />
       
-      {/* Quick Stats Card */}
-      <div className="glass-card p-5">
-        <h3 className="text-sm font-medium text-foreground">Platform Stats</h3>
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          <div className="rounded-lg bg-muted/30 p-3">
-            <div className="flex items-center gap-2">
-              <Flame className="h-4 w-4 text-warning" />
-              <span className="text-xs text-muted-foreground">Active Traders</span>
+      {/* Platform Stats */}
+      <div className="glass-card p-4">
+        <h3 className="text-sm font-medium text-foreground mb-3">Platform Stats</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 rounded bg-muted/50">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Users className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Traders</span>
             </div>
-            <p className="mt-1 text-xl font-bold text-foreground">12,847</p>
+            <p className="text-lg font-semibold text-foreground font-mono">12,847</p>
           </div>
-          <div className="rounded-lg bg-muted/30 p-3">
-            <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-primary" />
+          <div className="p-3 rounded bg-muted/50">
+            <div className="flex items-center gap-1.5 mb-1">
+              <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="text-xs text-muted-foreground">Strategies</span>
             </div>
-            <p className="mt-1 text-xl font-bold text-foreground">3,291</p>
+            <p className="text-lg font-semibold text-foreground font-mono">3,291</p>
           </div>
         </div>
       </div>

@@ -15,70 +15,46 @@ export function RiskGauge({ score, size = "sm" }: RiskGaugeProps) {
     return "text-destructive";
   };
 
-  const getLabel = () => {
-    if (isLowRisk) return "Safe";
-    if (isMediumRisk) return "Moderate";
-    return "Risky";
-  };
-
-  const getBgColor = () => {
-    if (isLowRisk) return "from-primary/20 to-primary/5";
-    if (isMediumRisk) return "from-warning/20 to-warning/5";
-    return "from-destructive/20 to-destructive/5";
-  };
-
   const getStrokeColor = () => {
     if (isLowRisk) return "stroke-primary";
     if (isMediumRisk) return "stroke-warning";
     return "stroke-destructive";
   };
 
-  const circumference = 2 * Math.PI * 18;
+  const circumference = 2 * Math.PI * 16;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
-  const dimensions = size === "sm" ? "h-12 w-12" : "h-16 w-16";
-  const textSize = size === "sm" ? "text-xs" : "text-sm";
+  const dimensions = size === "sm" ? "h-10 w-10" : "h-12 w-12";
+  const textSize = size === "sm" ? "text-[10px]" : "text-xs";
 
   return (
     <div className={cn("relative flex items-center justify-center", dimensions)}>
-      {/* Background glow */}
-      <div className={cn("absolute inset-0 rounded-full bg-gradient-radial opacity-50", getBgColor())} />
-      
-      {/* SVG Gauge */}
-      <svg className="h-full w-full -rotate-90" viewBox="0 0 44 44">
-        {/* Background circle */}
+      <svg className="h-full w-full -rotate-90" viewBox="0 0 40 40">
         <circle
-          cx="22"
-          cy="22"
-          r="18"
+          cx="20"
+          cy="20"
+          r="16"
           fill="none"
-          strokeWidth="3"
-          className="stroke-muted/30"
+          strokeWidth="2.5"
+          className="stroke-muted"
         />
-        {/* Progress circle */}
         <circle
-          cx="22"
-          cy="22"
-          r="18"
+          cx="20"
+          cy="20"
+          r="16"
           fill="none"
-          strokeWidth="3"
+          strokeWidth="2.5"
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
-          className={cn("transition-all duration-500", getStrokeColor())}
+          className={cn("transition-all duration-300", getStrokeColor())}
         />
       </svg>
 
-      {/* Center text */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={cn("font-bold leading-none", textSize, getColor())}>
-          {score}%
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className={cn("font-semibold font-mono", textSize, getColor())}>
+          {score}
         </span>
-        {size === "md" && (
-          <span className={cn("text-[10px] font-medium", getColor())}>
-            {getLabel()}
-          </span>
-        )}
       </div>
     </div>
   );

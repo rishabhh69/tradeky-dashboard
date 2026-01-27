@@ -8,38 +8,36 @@ export function CreateStrategyInput() {
   return (
     <div className="glass-card p-4">
       <div className="flex items-center gap-3">
-        <img
-          src="https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser"
-          alt="Your avatar"
-          className="h-10 w-10 rounded-full ring-2 ring-primary/30"
-        />
+        <div className="h-9 w-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+          <span className="text-sm font-medium">You</span>
+        </div>
         <div className="flex-1">
           <div className="relative">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Describe your trading strategy idea..."
-              className="w-full rounded-lg border border-white/10 bg-muted/30 px-4 py-3 pr-24 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              placeholder="Describe your trading strategy..."
+              className="w-full rounded border border-border bg-muted/50 px-3 py-2.5 pr-28 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
             />
-            <div className="absolute right-2 top-1/2 flex -translate-y-1/2 gap-1">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2">
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 gap-1.5 px-3 text-secondary hover:bg-secondary/10 hover:text-secondary"
+                className="h-7 gap-1.5 px-2 text-secondary hover:bg-secondary/10"
               >
-                <Sparkles className="h-4 w-4" />
-                <span className="hidden sm:inline">AI Generate</span>
+                <Sparkles className="h-3.5 w-3.5" />
+                <span className="text-xs">Generate</span>
               </Button>
             </div>
           </div>
         </div>
-        <Button size="icon" className="h-10 w-10 shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary">
+        <Button size="icon" className="h-9 w-9 shrink-0 bg-primary text-primary-foreground hover:bg-primary/90">
           <Send className="h-4 w-4" />
         </Button>
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
-        💡 Tip: Use natural language like "Buy BTC when RSI drops below 30 on the 4H chart"
+        Example: "Buy BTC when RSI drops below 30 on the 4H chart"
       </p>
     </div>
   );

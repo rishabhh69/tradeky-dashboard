@@ -4,25 +4,25 @@ import { mockStrategies } from "@/data/mockData";
 
 export function StrategyFeed() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <CreateStrategyInput />
       
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">Community Strategies</h2>
-        <div className="flex gap-2">
-          <button className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20">
+        <h2 className="text-sm font-semibold text-foreground">Community Strategies</h2>
+        <div className="flex gap-1">
+          <button className="rounded bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
             Trending
           </button>
-          <button className="rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground">
+          <button className="rounded px-2.5 py-1 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
             Latest
           </button>
-          <button className="rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground">
+          <button className="rounded px-2.5 py-1 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
             Top ROI
           </button>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {mockStrategies.map((strategy) => (
           <StrategyCard key={strategy.id} strategy={strategy} />
         ))}

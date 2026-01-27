@@ -10,12 +10,9 @@ interface PositionsPanelProps {
 export function PositionsPanel({ positions = mockPositions, onClosePosition }: PositionsPanelProps) {
   if (positions.length === 0) {
     return (
-      <div className="glass-card p-8 text-center">
-        <div className="w-12 h-12 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-3">
-          <Layers className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <p className="text-muted-foreground font-medium">No open positions</p>
-        <p className="text-sm text-muted-foreground mt-1">Your trades will appear here</p>
+      <div className="glass-card p-6 text-center">
+        <Layers className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
+        <p className="text-sm text-muted-foreground">No open positions</p>
       </div>
     );
   }
@@ -26,79 +23,70 @@ export function PositionsPanel({ positions = mockPositions, onClosePosition }: P
   return (
     <div className="glass-card overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border/50 bg-gradient-to-r from-muted/30 to-transparent">
+      <div className="px-4 py-3 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-primary" />
-            <h3 className="font-semibold text-foreground">Open Positions</h3>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground">
+            <Layers className="w-4 h-4 text-muted-foreground" />
+            <h3 className="text-sm font-medium text-foreground">Open Positions</h3>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
               {positions.length}
             </span>
           </div>
-          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono font-bold text-sm ${
-            isPositive 
-              ? 'bg-success/15 text-success' 
-              : 'bg-destructive/15 text-destructive'
+          <div className={`flex items-center gap-1 px-2 py-1 rounded font-mono text-xs font-medium ${
+            isPositive ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'
           }`}>
-            {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+            {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
             {isPositive ? '+' : ''}${totalPnl.toFixed(2)}
           </div>
         </div>
       </div>
 
-      {/* Positions List */}
-      <div className="divide-y divide-border/30">
-        {positions.map((position, index) => {
+      {/* Positions */}
+      <div className="divide-y divide-border/40">
+        {positions.map((position) => {
           const isProfit = position.pnl >= 0;
           const isLong = position.type === 'long';
 
           return (
-            <div 
-              key={position.id} 
-              className="p-4 hover:bg-muted/20 transition-all animate-fade-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="flex items-center justify-between mb-3">
+            <div key={position.id} className="p-3 hover:bg-muted/20 transition-colors">
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider ${
-                    isLong 
-                      ? 'bg-success/20 text-success border border-success/30' 
-                      : 'bg-destructive/20 text-destructive border border-destructive/30'
+                  <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded uppercase ${
+                    isLong ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'
                   }`}>
                     {isLong ? 'Long' : 'Short'}
                   </span>
-                  <span className="font-semibold text-foreground">{position.asset}</span>
+                  <span className="text-sm font-medium text-foreground">{position.asset}</span>
                   <span className="text-xs text-muted-foreground">/USDT</span>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => onClosePosition?.(position.id)}
-                  className="h-7 px-2.5 hover:bg-destructive/15 hover:text-destructive text-muted-foreground"
+                  className="h-6 px-2 text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                 >
-                  <X className="w-3.5 h-3.5 mr-1" />
+                  <X className="w-3 h-3 mr-1" />
                   Close
                 </Button>
               </div>
 
-              <div className="grid grid-cols-4 gap-3 text-sm">
-                <div className="bg-muted/30 rounded-lg p-2.5">
-                  <p className="text-muted-foreground text-[10px] uppercase tracking-wide mb-0.5">Size</p>
-                  <p className="font-mono font-semibold text-foreground">{position.size}</p>
+              <div className="grid grid-cols-4 gap-2 text-xs">
+                <div className="bg-muted/30 rounded p-2">
+                  <p className="text-muted-foreground text-[10px] mb-0.5">Size</p>
+                  <p className="font-mono font-medium text-foreground">{position.size}</p>
                 </div>
-                <div className="bg-muted/30 rounded-lg p-2.5">
-                  <p className="text-muted-foreground text-[10px] uppercase tracking-wide mb-0.5">Entry</p>
-                  <p className="font-mono font-semibold text-foreground">${position.entryPrice.toLocaleString()}</p>
+                <div className="bg-muted/30 rounded p-2">
+                  <p className="text-muted-foreground text-[10px] mb-0.5">Entry</p>
+                  <p className="font-mono font-medium text-foreground">${position.entryPrice.toLocaleString()}</p>
                 </div>
-                <div className="bg-muted/30 rounded-lg p-2.5">
-                  <p className="text-muted-foreground text-[10px] uppercase tracking-wide mb-0.5">Liq. Price</p>
-                  <p className="font-mono font-semibold text-warning">$---</p>
+                <div className="bg-muted/30 rounded p-2">
+                  <p className="text-muted-foreground text-[10px] mb-0.5">Liq.</p>
+                  <p className="font-mono text-muted-foreground">---</p>
                 </div>
-                <div className={`rounded-lg p-2.5 ${isProfit ? 'bg-success/10' : 'bg-destructive/10'}`}>
-                  <p className="text-muted-foreground text-[10px] uppercase tracking-wide mb-0.5">PnL</p>
-                  <p className={`font-mono font-bold ${isProfit ? 'text-success' : 'text-destructive'}`}>
+                <div className={`rounded p-2 ${isProfit ? 'bg-primary/10' : 'bg-destructive/10'}`}>
+                  <p className="text-muted-foreground text-[10px] mb-0.5">PnL</p>
+                  <p className={`font-mono font-medium ${isProfit ? 'text-primary' : 'text-destructive'}`}>
                     {isProfit ? '+' : ''}{position.pnl.toFixed(2)}
-                    <span className="text-[10px] ml-1">({position.pnlPercent.toFixed(1)}%)</span>
                   </p>
                 </div>
               </div>

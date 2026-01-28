@@ -70,6 +70,10 @@
     --glow-success: 160 70% 42% / 0.12;
     --glow-destructive: 0 72% 55% / 0.12;
 
+    /* Price ticker animations */
+    --tick-up-color: 160 84% 44%;
+    --tick-down-color: 0 72% 55%;
+
     /* Sidebar tokens */
     --sidebar-background: 220 22% 5%;
     --sidebar-foreground: 210 20% 96%;
@@ -328,6 +332,45 @@
     }
     100% {
       opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Price ticker animations */
+  .animate-tick-up {
+    animation: tick-up 0.5s ease-out;
+  }
+
+  .animate-tick-down {
+    animation: tick-down 0.5s ease-out;
+  }
+
+  @keyframes tick-up {
+    0% {
+      color: hsl(var(--primary));
+      text-shadow: 0 0 8px hsl(var(--primary) / 0.5);
+    }
+    50% {
+      transform: translateY(-1px);
+    }
+    100% {
+      color: inherit;
+      text-shadow: none;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tick-down {
+    0% {
+      color: hsl(var(--destructive));
+      text-shadow: 0 0 8px hsl(var(--destructive) / 0.5);
+    }
+    50% {
+      transform: translateY(1px);
+    }
+    100% {
+      color: inherit;
+      text-shadow: none;
       transform: translateY(0);
     }
   }

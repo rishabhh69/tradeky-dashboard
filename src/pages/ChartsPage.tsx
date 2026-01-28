@@ -5,15 +5,15 @@ import { TradingPanel } from "@/components/charts/TradingPanel";
 import { IndicatorsPanel } from "@/components/charts/IndicatorsPanel";
 import { AssetSelector } from "@/components/charts/AssetSelector";
 import { PositionsPanel } from "@/components/charts/PositionsPanel";
-import { mockMarketAssets, mockPortfolio } from "@/data/mockData";
+import { PriceTicker } from "@/components/charts/PriceTicker";
+import { mockPortfolio } from "@/data/mockData";
+import { useRealtimePrices } from "@/hooks/useRealtimePrices";
 import { Button } from "@/components/ui/button";
 import { 
   Clock, 
   Maximize2, 
   Camera, 
   Settings,
-  TrendingUp,
-  TrendingDown,
   Wallet
 } from "lucide-react";
 
@@ -24,8 +24,9 @@ export default function ChartsPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState('1H');
   const [activeIndicators, setActiveIndicators] = useState<string[]>(['SMA']);
   const [balance, setBalance] = useState(mockPortfolio.balance);
-
-  const currentAsset = mockMarketAssets.find(a => a.symbol === selectedAsset) || mockMarketAssets[0];
+  
+  const { assets, getAsset } = useRealtimePrices(2000);
+  const currentAsset = getAsset(selectedAsset) || assets[0];
 
   const handleToggleIndicator = (indicator: string) => {
     setActiveIndicators(prev => 
@@ -69,19 +70,8 @@ export default function ChartsPage() {
               </div>
 
               {/* Price */}
-              <div className="flex items-center gap-2.5 pl-4 border-l border-border">
-                <span className="text-xl font-semibold font-mono text-foreground">
-                  ${currentAsset.price.toLocaleString()}
-                </span>
-                <span className={`flex items-center gap-1 text-sm font-medium ${
-                  currentAsset.change24h >= 0 ? 'text-primary' : 'text-destructive'
-                }`}>
-                  {currentAsset.change24h >= 0 
-                    ? <TrendingUp className="w-3.5 h-3.5" /> 
-                    : <TrendingDown className="w-3.5 h-3.5" />
-                  }
-                  {currentAsset.change24h >= 0 ? '+' : ''}{currentAsset.change24h.toFixed(2)}%
-                </span>
+              <div className="pl-4 border-l border-border">
+                <PriceTicker asset={currentAsset} size="md" />
               </div>
             </div>
 
@@ -158,7 +148,8 @@ export default function ChartsPage() {
             <div className="col-span-2">
               <AssetSelector 
                 selectedAsset={selectedAsset} 
-                onSelectAsset={setSelectedAsset} 
+                onSelectAsset={setSelectedAsset}
+                assets={assets}
               />
             </div>
 

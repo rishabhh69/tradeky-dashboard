@@ -45,22 +45,22 @@ export default function ChartsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background bg-gradient-mesh">
       <Sidebar />
       
       <main className="flex-1 ml-60">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-background border-b border-border">
+        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border/50">
           <div className="flex items-center justify-between px-5 h-14">
             <div className="flex items-center gap-4">
               {/* Asset Info */}
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary">
                   {currentAsset.icon}
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h1 className="text-base font-semibold text-foreground">
+                    <h1 className="text-base font-semibold text-foreground text-glow-sm">
                       {currentAsset.symbol}
                     </h1>
                     <span className="text-xs text-muted-foreground">/USDT</span>
@@ -70,14 +70,14 @@ export default function ChartsPage() {
               </div>
 
               {/* Price */}
-              <div className="pl-4 border-l border-border">
+              <div className="pl-4 border-l border-border/50">
                 <PriceTicker asset={currentAsset} size="md" />
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               {/* Balance */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-border bg-muted/30">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass-card">
                 <Wallet className="w-4 h-4 text-muted-foreground" />
                 <div className="flex flex-col">
                   <span className="text-[10px] text-muted-foreground">Balance</span>
@@ -88,13 +88,13 @@ export default function ChartsPage() {
               </div>
 
               <div className="flex items-center gap-0.5">
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/5">
                   <Camera className="w-4 h-4 text-muted-foreground" />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/5">
                   <Settings className="w-4 h-4 text-muted-foreground" />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/5">
                   <Maximize2 className="w-4 h-4 text-muted-foreground" />
                 </Button>
               </div>
@@ -107,15 +107,15 @@ export default function ChartsPage() {
               <Clock className="w-3.5 h-3.5 text-muted-foreground" />
               <span className="text-xs text-muted-foreground font-medium">Timeframe</span>
             </div>
-            <div className="flex items-center gap-0.5 p-0.5 rounded bg-muted/50">
+            <div className="flex items-center gap-0.5 p-0.5 rounded-lg glass-card">
               {timeframes.map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
                     selectedTimeframe === tf
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-primary text-primary-foreground glow-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
                   }`}
                 >
                   {tf}
@@ -124,13 +124,13 @@ export default function ChartsPage() {
             </div>
 
             {activeIndicators.length > 0 && (
-              <div className="flex items-center gap-1.5 ml-2 pl-3 border-l border-border">
+              <div className="flex items-center gap-1.5 ml-2 pl-3 border-l border-border/50">
                 <span className="text-xs text-muted-foreground">Indicators:</span>
                 <div className="flex gap-1">
                   {activeIndicators.map((ind) => (
                     <span 
                       key={ind} 
-                      className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
+                      className="badge-cyan"
                     >
                       {ind}
                     </span>

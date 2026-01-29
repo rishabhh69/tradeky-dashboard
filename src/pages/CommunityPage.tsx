@@ -65,12 +65,12 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background bg-gradient-mesh">
       <Sidebar />
       
       <div className="pl-60">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-border bg-background">
+        <header className="sticky top-0 z-30 border-b border-border/50 bg-background/80 backdrop-blur-xl">
           <div className="flex h-14 items-center justify-between px-5">
             <div className="flex items-center gap-3">
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -80,7 +80,7 @@ export default function CommunityPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 rounded border border-border bg-muted/50 px-3 py-1.5">
+              <div className="flex items-center gap-2 rounded-lg glass-card px-3 py-1.5">
                 <Search className="h-3.5 w-3.5 text-muted-foreground" />
                 <input
                   type="text"
@@ -88,7 +88,7 @@ export default function CommunityPage() {
                   className="w-48 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
               </div>
-              <Button variant="outline" size="sm" className="gap-1.5 h-8 border-border text-xs">
+              <Button variant="outline" size="sm" className="gap-1.5 h-8 border-white/10 hover:bg-white/5 text-xs">
                 <Filter className="h-3.5 w-3.5" />
                 Filter
               </Button>
@@ -106,10 +106,10 @@ export default function CommunityPage() {
                 key={key}
                 onClick={() => setActiveTab(key as TabType)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-medium transition-colors",
+                  "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all",
                   activeTab === key
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-primary/10 text-primary glow-primary"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
                 )}
               >
                 <Icon className="h-3.5 w-3.5" />
@@ -129,13 +129,13 @@ export default function CommunityPage() {
                   {/* Create Post */}
                   <div className="glass-card p-3">
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-muted" />
+                      <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-secondary" />
                       <input
                         type="text"
                         placeholder="Share your market insights..."
-                        className="flex-1 rounded border border-border bg-muted/50 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
+                        className="flex-1 rounded-lg glass-input px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                       />
-                      <Button size="sm" className="h-8 px-3 text-xs">Post</Button>
+                      <Button size="sm" className="h-8 px-3 text-xs btn-primary-premium">Post</Button>
                     </div>
                   </div>
 
@@ -149,8 +149,8 @@ export default function CommunityPage() {
                       <button
                         key={label}
                         className={cn(
-                          "flex items-center gap-1 rounded px-2 py-1 text-xs font-medium transition-colors",
-                          label === 'Hot' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"
+                          "flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition-all",
+                          label === 'Hot' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-white/5"
                         )}
                       >
                         <Icon className="h-3 w-3" />
@@ -163,12 +163,12 @@ export default function CommunityPage() {
                   {discussions.map((discussion) => (
                     <article key={discussion.id} className="glass-card p-4">
                       <div className="flex items-start gap-3">
-                        <img src={discussion.author.avatar} alt="" className="h-8 w-8 rounded-full bg-muted" />
+                        <img src={discussion.author.avatar} alt="" className="h-8 w-8 rounded-full bg-card" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-foreground">{discussion.author.name}</span>
                             {discussion.author.badge && (
-                              <span className="text-[10px] font-medium text-secondary bg-secondary/10 px-1.5 py-0.5 rounded">
+                              <span className="badge-fuchsia">
                                 {discussion.author.badge}
                               </span>
                             )}
@@ -180,7 +180,7 @@ export default function CommunityPage() {
 
                           <div className="mt-2 flex flex-wrap gap-1">
                             {discussion.tags.map((tag) => (
-                              <span key={tag} className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                              <span key={tag} className="rounded-lg bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground border border-white/5">
                                 #{tag}
                               </span>
                             ))}
@@ -216,17 +216,17 @@ export default function CommunityPage() {
                 <div className="space-y-4">
                   {/* Top Traders */}
                   <div className="glass-card">
-                    <div className="flex items-center justify-between p-3 border-b border-border/60">
+                    <div className="flex items-center justify-between p-3 border-b border-white/5">
                       <h3 className="text-sm font-medium text-foreground">Top Traders</h3>
                       <button onClick={() => setActiveTab("traders")} className="text-xs text-primary hover:text-primary/80 flex items-center">
                         View All <ChevronRight className="h-3 w-3" />
                       </button>
                     </div>
-                    <div className="divide-y divide-border/40">
+                    <div className="divide-y divide-white/5">
                       {traders.slice(0, 3).map((trader, idx) => (
                         <div key={trader.id} className="flex items-center gap-2 p-3">
                           <span className="w-5 text-xs font-medium text-muted-foreground">{idx + 1}</span>
-                          <img src={trader.avatar} alt="" className="h-7 w-7 rounded-full bg-muted" />
+                          <img src={trader.avatar} alt="" className="h-7 w-7 rounded-full bg-card" />
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium text-foreground truncate">{trader.name}</p>
                             <p className="text-[10px] text-primary">+{trader.winRate}% win rate</p>
@@ -243,7 +243,7 @@ export default function CommunityPage() {
                       {["BTC", "ETH", "SOL", "DeFi", "NFTs", "Trading"].map((tag) => (
                         <button
                           key={tag}
-                          className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+                          className="rounded-lg bg-white/5 px-2 py-1 text-xs text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors border border-white/5"
                         >
                           #{tag}
                         </button>
@@ -261,7 +261,7 @@ export default function CommunityPage() {
                         { label: 'Volume', value: '$2.4M' },
                         { label: 'Online', value: '892' },
                       ].map(({ label, value }) => (
-                        <div key={label} className="p-2 rounded bg-muted/50 text-center">
+                        <div key={label} className="p-2 rounded-lg bg-white/[0.03] border border-white/5 text-center">
                           <p className="text-sm font-semibold text-foreground font-mono">{value}</p>
                           <p className="text-[10px] text-muted-foreground">{label}</p>
                         </div>
@@ -279,7 +279,7 @@ export default function CommunityPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className="relative">
-                          <img src={trader.avatar} alt="" className="h-11 w-11 rounded-full bg-muted" />
+                          <img src={trader.avatar} alt="" className="h-11 w-11 rounded-full bg-card" />
                           {idx < 3 && (
                             <div className={cn(
                               "absolute -right-1 -top-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold",
@@ -295,7 +295,7 @@ export default function CommunityPage() {
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-foreground">{trader.name}</span>
                             {trader.badge && (
-                              <span className="text-[10px] font-medium text-secondary bg-secondary/10 px-1.5 py-0.5 rounded">
+                              <span className="badge-fuchsia">
                                 {trader.badge}
                               </span>
                             )}
@@ -306,11 +306,11 @@ export default function CommunityPage() {
                     </div>
 
                     <div className="mt-3 grid grid-cols-2 gap-2">
-                      <div className="rounded bg-muted/50 p-2">
+                      <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
                         <p className="text-[10px] text-muted-foreground">Win Rate</p>
                         <p className="text-sm font-semibold text-primary font-mono">{trader.winRate}%</p>
                       </div>
-                      <div className="rounded bg-muted/50 p-2">
+                      <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
                         <p className="text-[10px] text-muted-foreground">Total P&L</p>
                         <p className="text-sm font-semibold text-primary font-mono">+${(trader.totalPnL / 1000).toFixed(0)}K</p>
                       </div>
@@ -320,12 +320,12 @@ export default function CommunityPage() {
                       <Button
                         variant={trader.isFollowing ? "outline" : "default"}
                         size="sm"
-                        className={cn("flex-1 h-8 text-xs", trader.isFollowing && "border-border")}
+                        className={cn("flex-1 h-8 text-xs", trader.isFollowing ? "border-white/10 hover:bg-white/5" : "btn-primary-premium")}
                         onClick={() => handleFollow(trader.id)}
                       >
                         {trader.isFollowing ? "Following" : "Follow"}
                       </Button>
-                      <Button variant="outline" size="sm" className="flex-1 h-8 text-xs border-border">
+                      <Button variant="outline" size="sm" className="flex-1 h-8 text-xs border-white/10 hover:bg-white/5">
                         Profile
                       </Button>
                     </div>
@@ -350,30 +350,22 @@ export default function CommunityPage() {
                   {[
                     { topic: "Bitcoin ETF Inflows", mentions: 1247, trend: "+45%", sentiment: "bullish" },
                     { topic: "Ethereum Merge Anniversary", mentions: 892, trend: "+23%", sentiment: "neutral" },
-                    { topic: "Solana DeFi Growth", mentions: 756, trend: "+67%", sentiment: "bullish" },
-                    { topic: "Altcoin Season Predictions", mentions: 634, trend: "+12%", sentiment: "mixed" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="glass-card p-4">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="text-lg font-bold text-muted-foreground">#{idx + 1}</span>
-                          <h3 className="text-sm font-medium text-foreground mt-0.5">{item.topic}</h3>
-                        </div>
+                    { topic: "Solana NFT Surge", mentions: 756, trend: "+67%", sentiment: "bullish" },
+                    { topic: "DeFi Yield Farming", mentions: 534, trend: "+12%", sentiment: "neutral" },
+                  ].map((item, i) => (
+                    <div key={i} className="glass-card p-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-medium text-foreground">{item.topic}</h3>
                         <span className={cn(
-                          "rounded px-2 py-0.5 text-[10px] font-medium",
-                          item.sentiment === "bullish" ? "bg-primary/10 text-primary" :
-                          item.sentiment === "neutral" ? "bg-muted text-muted-foreground" :
-                          "bg-secondary/10 text-secondary"
+                          "badge-cyan",
+                          item.sentiment === "bullish" && "badge-cyan"
                         )}>
                           {item.sentiment}
                         </span>
                       </div>
-                      <div className="mt-3 flex items-center gap-4">
-                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <MessageSquare className="h-3 w-3" />
-                          {item.mentions.toLocaleString()} mentions
-                        </span>
-                        <span className="text-xs font-medium text-primary">{item.trend}</span>
+                      <div className="flex items-center gap-4 mt-2">
+                        <span className="text-xs text-muted-foreground">{item.mentions} mentions</span>
+                        <span className="text-xs text-primary font-medium">{item.trend}</span>
                       </div>
                     </div>
                   ))}

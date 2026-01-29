@@ -5,7 +5,7 @@ import { mockLeaderboard } from "@/data/mockData";
 export function LeaderboardWidget() {
   return (
     <div className="glass-card">
-      <div className="flex items-center justify-between p-4 border-b border-border/60">
+      <div className="flex items-center justify-between p-4 border-b border-white/5">
         <div className="flex items-center gap-2">
           <Trophy className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium text-foreground">Top Traders</span>
@@ -16,25 +16,25 @@ export function LeaderboardWidget() {
         </button>
       </div>
 
-      <div className="divide-y divide-border/40">
+      <div className="divide-y divide-white/5">
         {mockLeaderboard.map((entry) => (
           <div
             key={entry.rank}
-            className="flex items-center gap-3 p-3 hover:bg-muted/30 transition-colors"
+            className="flex items-center gap-3 p-3 hover:bg-white/5 transition-colors"
           >
             <span className={cn(
               "w-6 h-6 rounded flex items-center justify-center text-xs font-semibold",
               entry.rank === 1 ? "bg-amber-500/10 text-amber-500" :
               entry.rank === 2 ? "bg-slate-400/10 text-slate-400" :
               entry.rank === 3 ? "bg-orange-500/10 text-orange-500" :
-              "bg-muted text-muted-foreground"
+              "bg-white/5 text-muted-foreground"
             )}>
               {entry.rank}
             </span>
             <img
               src={entry.avatar}
               alt={entry.name}
-              className="h-8 w-8 rounded-full bg-muted"
+              className="h-8 w-8 rounded-full bg-card"
             />
             <div className="flex-1 min-w-0">
               <span className="text-sm font-medium text-foreground truncate block">{entry.name}</span>

@@ -10,7 +10,7 @@ export function AIHelperButton() {
       {/* Tooltip */}
       <div
         className={cn(
-          "absolute bottom-full right-0 mb-2 w-52 rounded glass-card p-3 transition-all duration-200",
+          "absolute bottom-full right-0 mb-2 w-52 rounded-lg glass-card p-3 transition-all duration-200",
           isHovered ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0"
         )}
       >
@@ -29,9 +29,9 @@ export function AIHelperButton() {
       <button
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg transition-transform hover:scale-105"
+        className="flex h-12 w-12 items-center justify-center rounded-full btn-gradient-premium shadow-lg transition-transform hover:scale-105"
       >
-        <MessageCircle className="h-5 w-5" />
+        <MessageCircle className="h-5 w-5 text-white" />
       </button>
     </div>
   );

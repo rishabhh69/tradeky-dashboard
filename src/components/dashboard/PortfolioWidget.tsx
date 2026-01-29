@@ -16,8 +16,8 @@ function Sparkline({ data }: { data: number[] }) {
     <svg className="h-12 w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
       <defs>
         <linearGradient id="sparklineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
         </linearGradient>
       </defs>
       <polygon
@@ -26,7 +26,7 @@ function Sparkline({ data }: { data: number[] }) {
       />
       <polyline
         fill="none"
-        stroke="hsl(var(--primary))"
+        stroke="#22d3ee"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -48,13 +48,13 @@ export function PortfolioWidget() {
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium text-muted-foreground">Portfolio</span>
         </div>
-        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded">
+        <span className="badge-fuchsia">
           Demo
         </span>
       </div>
 
       <div className="mb-4">
-        <div className="text-2xl font-semibold text-foreground font-mono">
+        <div className="text-2xl font-semibold text-foreground font-mono text-glow-sm">
           ${balance.toLocaleString()}<span className="text-muted-foreground text-lg">.00</span>
         </div>
         <div className="flex items-center gap-2 mt-1">
@@ -71,10 +71,10 @@ export function PortfolioWidget() {
       <Sparkline data={sparklineData} />
 
       <div className="flex gap-2 mt-4">
-        <button className="flex-1 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
+        <button className="flex-1 py-2 text-sm font-medium btn-primary-premium rounded-lg transition-all">
           Add Funds
         </button>
-        <button className="flex-1 py-2 text-sm font-medium border border-border text-foreground rounded hover:bg-muted transition-colors">
+        <button className="flex-1 py-2 text-sm font-medium border border-white/10 text-foreground rounded-lg hover:bg-white/5 transition-colors">
           Trade
         </button>
       </div>

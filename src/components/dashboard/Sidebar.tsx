@@ -1,4 +1,4 @@
-import { Home, Users, LineChart, Trophy, GraduationCap, LogOut } from "lucide-react";
+import { Home, Users, LineChart, Trophy, GraduationCap, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -27,13 +27,13 @@ export function Sidebar() {
                       'Trader';
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-border bg-sidebar">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-border/50 bg-sidebar">
       {/* Logo */}
-      <div className="flex h-14 items-center gap-2 border-b border-border px-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded bg-primary text-primary-foreground font-bold text-sm">
-          T
+      <div className="flex h-14 items-center gap-2.5 border-b border-border/50 px-5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-secondary">
+          <span className="text-sm font-bold text-white">T</span>
         </div>
-        <span className="text-lg font-semibold text-foreground">Tradeky</span>
+        <span className="text-lg font-semibold text-gradient-logo">Tradeky</span>
       </div>
 
       {/* Navigation */}
@@ -46,10 +46,10 @@ export function Sidebar() {
                 key={item.name}
                 to={item.path}
                 className={cn(
-                  "flex items-center gap-3 rounded px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
                   isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-primary/10 text-primary glow-primary"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -61,25 +61,39 @@ export function Sidebar() {
       </nav>
 
       {/* User Profile */}
-      <div className="border-t border-border p-3">
-        <div className="flex items-center gap-3 rounded p-2 hover:bg-muted transition-colors">
-          <img
-            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.id || 'default'}`}
-            alt="User avatar"
-            className="h-8 w-8 rounded-full bg-muted"
-          />
+      <div className="border-t border-border/50 p-3">
+        <Link
+          to="/profile"
+          className={cn(
+            "flex items-center gap-3 rounded-lg p-2 transition-colors",
+            location.pathname === '/profile' 
+              ? "bg-primary/10" 
+              : "hover:bg-white/5"
+          )}
+        >
+          <div className="relative">
+            <img
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.id || 'default'}`}
+              alt="User avatar"
+              className="h-8 w-8 rounded-full bg-card"
+            />
+            <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-primary border-2 border-sidebar" />
+          </div>
           <div className="flex-1 min-w-0">
             <p className="truncate text-sm font-medium text-foreground">{displayName}</p>
-            <p className="text-xs text-muted-foreground">Pro Member</p>
+            <p className="text-xs text-primary">Pro Member</p>
           </div>
           <button
-            onClick={handleSignOut}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSignOut();
+            }}
             className="p-1.5 text-muted-foreground hover:text-destructive transition-colors rounded hover:bg-destructive/10"
             title="Sign out"
           >
             <LogOut className="h-4 w-4" />
           </button>
-        </div>
+        </Link>
       </div>
     </aside>
   );

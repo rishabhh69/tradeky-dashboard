@@ -2,6 +2,7 @@ import { Sidebar } from "./Sidebar";
 import { StrategyFeed } from "./StrategyFeed";
 import { WidgetsPanel } from "./WidgetsPanel";
 import { AIHelperButton } from "./AIHelperButton";
+import { CreateAlertSection } from "./CreateAlertSection";
 import { Bell, Search, Settings } from "lucide-react";
 
 export function Dashboard() {
@@ -44,7 +45,8 @@ export function Dashboard() {
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
               {/* Main Feed */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 space-y-6">
+                <CreateAlertSection />
                 <StrategyFeed />
               </div>
               

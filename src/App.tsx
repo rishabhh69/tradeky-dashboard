@@ -10,6 +10,7 @@ import AuthPage from "./pages/AuthPage";
 import ChartsPage from "./pages/ChartsPage";
 import CommunityPage from "./pages/CommunityPage";
 import ProfilePage from "./pages/ProfilePage";
+import ContestsPage from "./pages/ContestsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -54,6 +55,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/contests" 
+              element={
+                <ProtectedRoute>
+                  <ContestsPage />
                 </ProtectedRoute>
               } 
             />

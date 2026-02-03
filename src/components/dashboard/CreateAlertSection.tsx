@@ -1,18 +1,73 @@
-import { useState } from "react";
-import { Bell, Sparkles, ClipboardPaste, AlertTriangle, TrendingUp, Target, Gauge, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Bell, Sparkles, ClipboardPaste, AlertTriangle, TrendingUp, Target, Gauge, Loader2, Trash2, Power, PowerOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+
+interface StrategyAlert {
+  id: string;
+  strategy_text: string;
+  ai_insights: string | null;
+  is_active: boolean;
+  created_at: string;
+}
 
 export function CreateAlertSection() {
   const [strategy, setStrategy] = useState("");
   const [insights, setInsights] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [alertEnabled, setAlertEnabled] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedAlerts, setSavedAlerts] = useState<StrategyAlert[]>([]);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Fetch user's saved alerts on mount
+  useEffect(() => {
+    if (user) {
+      fetchAlerts();
+      
+      // Subscribe to realtime changes
+      const channel = supabase
+        .channel('strategy_alerts')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'strategy_alerts',
+            filter: `user_id=eq.${user.id}`,
+          },
+          () => {
+            fetchAlerts();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [user]);
+
+  const fetchAlerts = async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('strategy_alerts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching alerts:', error);
+    } else {
+      setSavedAlerts(data || []);
+    }
+  };
 
   const handlePaste = async () => {
     try {
@@ -109,12 +164,102 @@ export function CreateAlertSection() {
     }
   };
 
-  const enableAlert = () => {
-    setAlertEnabled(true);
-    toast({
-      title: "Alert enabled",
-      description: "You'll be notified when market conditions match your strategy.",
-    });
+  const saveAlert = async () => {
+    if (!user) {
+      toast({
+        title: "Login required",
+        description: "Please log in to save alerts.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!strategy.trim()) {
+      toast({
+        title: "Strategy required",
+        description: "Please describe your trading strategy first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const { error } = await supabase.from('strategy_alerts').insert({
+        user_id: user.id,
+        strategy_text: strategy,
+        ai_insights: insights || null,
+        is_active: true,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Alert saved",
+        description: "Your strategy alert has been saved and is now active.",
+      });
+
+      setStrategy("");
+      setInsights("");
+    } catch (error) {
+      console.error("Save error:", error);
+      toast({
+        title: "Save failed",
+        description: "Could not save alert. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const toggleAlert = async (alertId: string, currentState: boolean) => {
+    try {
+      const { error } = await supabase
+        .from('strategy_alerts')
+        .update({ is_active: !currentState })
+        .eq('id', alertId);
+
+      if (error) throw error;
+
+      toast({
+        title: currentState ? "Alert paused" : "Alert activated",
+        description: currentState 
+          ? "You won't receive notifications for this strategy." 
+          : "You'll be notified when conditions are met.",
+      });
+    } catch (error) {
+      console.error("Toggle error:", error);
+      toast({
+        title: "Update failed",
+        description: "Could not update alert. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const deleteAlert = async (alertId: string) => {
+    try {
+      const { error } = await supabase
+        .from('strategy_alerts')
+        .delete()
+        .eq('id', alertId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Alert deleted",
+        description: "Strategy alert has been removed.",
+      });
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast({
+        title: "Delete failed",
+        description: "Could not delete alert. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -163,29 +308,22 @@ export function CreateAlertSection() {
                 </>
               )}
             </Button>
-            {insights && !alertEnabled && (
+            {strategy.trim() && (
               <Button
-                onClick={enableAlert}
+                onClick={saveAlert}
+                disabled={isSaving}
                 variant="outline"
                 className="border-primary/50 text-primary hover:bg-primary/10"
               >
-                <Bell className="h-4 w-4" />
-                Enable Alert
+                {isSaving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Bell className="h-4 w-4" />
+                )}
+                Save Alert
               </Button>
             )}
           </div>
-
-          {alertEnabled && (
-            <div className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 p-3">
-              <Bell className="h-4 w-4 text-primary" />
-              <span className="text-sm text-foreground">
-                Alert active — You'll be notified when conditions are met
-              </span>
-              <Badge variant="outline" className="ml-auto border-primary/50 text-primary">
-                Monitoring
-              </Badge>
-            </div>
-          )}
         </CardContent>
       </Card>
 
@@ -230,6 +368,74 @@ export function CreateAlertSection() {
                 {insights}
               </ReactMarkdown>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Saved Alerts */}
+      {savedAlerts.length > 0 && (
+        <Card className="border-border/50 bg-card/30 backdrop-blur-xl">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Bell className="h-4 w-4 text-primary" />
+              Your Strategy Alerts
+              <Badge variant="outline" className="ml-auto border-primary/50 text-primary">
+                {savedAlerts.filter(a => a.is_active).length} Active
+              </Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {savedAlerts.map((alert) => (
+              <div
+                key={alert.id}
+                className={`rounded-lg border p-3 transition-all ${
+                  alert.is_active
+                    ? 'border-primary/30 bg-primary/5'
+                    : 'border-border/30 bg-muted/10 opacity-60'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-foreground line-clamp-2">
+                      {alert.strategy_text}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Created {new Date(alert.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                      onClick={() => toggleAlert(alert.id, alert.is_active)}
+                      title={alert.is_active ? "Pause alert" : "Activate alert"}
+                    >
+                      {alert.is_active ? (
+                        <Power className="h-3.5 w-3.5 text-primary" />
+                      ) : (
+                        <PowerOff className="h-3.5 w-3.5" />
+                      )}
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      onClick={() => deleteAlert(alert.id)}
+                      title="Delete alert"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </div>
+                {alert.is_active && (
+                  <Badge variant="outline" className="mt-2 border-primary/50 text-primary text-xs">
+                    <span className="mr-1 h-1.5 w-1.5 rounded-full bg-primary animate-pulse inline-block" />
+                    Monitoring
+                  </Badge>
+                )}
+              </div>
+            ))}
           </CardContent>
         </Card>
       )}

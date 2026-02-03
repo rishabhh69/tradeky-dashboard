@@ -11,6 +11,7 @@ import ChartsPage from "./pages/ChartsPage";
 import CommunityPage from "./pages/CommunityPage";
 import ProfilePage from "./pages/ProfilePage";
 import ContestsPage from "./pages/ContestsPage";
+import LearnPage from "./pages/LearnPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -63,6 +64,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <ContestsPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/learn" 
+              element={
+                <ProtectedRoute>
+                  <LearnPage />
                 </ProtectedRoute>
               } 
             />

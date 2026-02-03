@@ -47,6 +47,36 @@ export type Database = {
         }
         Relationships: []
       }
+      strategy_alerts: {
+        Row: {
+          ai_insights: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          strategy_text: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_insights?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          strategy_text: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_insights?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          strategy_text?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
